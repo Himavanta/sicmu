@@ -1,3 +1,5 @@
-export function fn() {
-  return 'Hello, tsdown!'
-}
+import { createApp } from 'vue'
+
+import app from './app.tsx'
+
+createApp(app).mount(document.body!)

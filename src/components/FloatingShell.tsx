@@ -9,6 +9,7 @@ export default defineComponent({
     const { style: dragStyle, isDragging } = useDraggable(shellRef, {
       initialValue: { x: window.innerWidth - 400, y: window.innerHeight - 300 },
       restrictInView: true,
+      containerElement: document.documentElement,
     })
 
     return () => (

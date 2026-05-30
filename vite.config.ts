@@ -21,6 +21,11 @@ export default defineConfig({
     minify: true,
     format: 'iife',
     css: { minify: true },
+    inputOptions: {
+      onLog(level, log) {
+        if (log.code === 'INVALID_ANNOTATION') return
+      },
+    },
     hooks: {
       'build:done': async () => {
         const cssPath = resolve(OUT_DIR, 'style.css')

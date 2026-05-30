@@ -1,14 +1,20 @@
-import { defineConfig } from "vite-plus";
+import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
+  oxc: { jsx: { importSource: 'vue' } },
   staged: {
-    "*": "vp check --fix",
+    '*': 'vp check --fix',
   },
   pack: {
-    dts: {
-      tsgo: true,
-    },
+    dts: true,
     exports: true,
+    platform: 'neutral',
+    minify: true,
+    css: {
+      minify: true,
+      // splitting: true,
+      inject: true,
+    },
   },
   lint: {
     options: {
@@ -16,5 +22,10 @@ export default defineConfig({
       typeCheck: true,
     },
   },
-  fmt: {},
-});
+  fmt: {
+    semi: false,
+    sortImports: {},
+    singleQuote: true,
+    jsxSingleQuote: true,
+  },
+})

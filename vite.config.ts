@@ -7,7 +7,6 @@ export default defineConfig({
   },
   pack: {
     dts: false,
-    exports: true,
     platform: 'browser',
     minify: true,
     format: 'iife',

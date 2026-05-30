@@ -3,7 +3,7 @@ declare module '*.module.scss' {
   export default classes
 }
 
-declare module '*.module.scss?inline' {
+declare module '*.scss?inline' {
   const css: string
   export default css
 }

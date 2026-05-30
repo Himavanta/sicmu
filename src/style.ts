@@ -1,6 +1,11 @@
-export const createStyle = (textContent: string) =>
-  document.head.appendChild(
-    Object.assign(document.createElement('style'), {
-      textContent,
-    }),
-  )
+import { onUnmounted } from 'vue'
+
+export function useStyle(textContent: string) {
+  const style = Object.assign(document.createElement('style'), {
+    textContent,
+  })
+
+  document.head.appendChild(style)
+
+  onUnmounted(() => style.remove())
+}

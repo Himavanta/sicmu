@@ -32,11 +32,11 @@
     "prepublishOnly": "vp run build",
     "prepare": "vp config"
   },
-  "dependencies": {},
   "devDependencies": {
     "@tsdown/css": "^0.22.1",
     "@types/node": "^25.6.2",
     "bumpp": "^11.1.0",
+    "rolldown": "^1.0.3",
     "sass-embedded": "^1.100.0",
     "typescript": "^6.0.3",
     "vite-plus": "catalog:",

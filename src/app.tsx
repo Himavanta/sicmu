@@ -1,10 +1,7 @@
 import { defineComponent } from 'vue'
 
-import { useStyle } from './style.ts'
-
-import styleTextScss from './app.scss?inline'
+import style from './app.module.scss'
 
 export default defineComponent(() => {
-  useStyle(styleTextScss)
-  return () => <div class='sicmu-app'>test</div>
+  return () => <div class={style.App}>test</div>
 })

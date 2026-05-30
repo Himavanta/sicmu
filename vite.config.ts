@@ -8,13 +8,9 @@ export default defineConfig({
   pack: {
     dts: false,
     exports: true,
-    platform: 'neutral',
+    platform: 'browser',
     minify: true,
-    css: {
-      minify: true,
-      // splitting: true,
-      inject: true,
-    },
+    css: { minify: true },
   },
   lint: {
     options: {

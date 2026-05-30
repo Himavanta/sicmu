@@ -18,7 +18,8 @@
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./style.css": "./dist/style.css"
   },
   "publishConfig": {
     "access": "public"
@@ -31,15 +32,22 @@
     "prepublishOnly": "vp run build",
     "prepare": "vp config"
   },
-  "dependencies": {
-    "sass-embedded": "^1.100.0",
-    "vue": "^3.5.35"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@tsdown/css": "^0.22.1",
     "@types/node": "^25.6.2",
     "bumpp": "^11.1.0",
+    "sass-embedded": "^1.100.0",
     "typescript": "^6.0.3",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vue": "^3.5.35"
   },
-  "packageManager": "pnpm@11.5.0"
+  "packageManager": "pnpm@11.5.0",
+  "inlinedDependencies": {
+    "@vue/reactivity": "3.5.35",
+    "@vue/runtime-core": "3.5.35",
+    "@vue/runtime-dom": "3.5.35",
+    "@vue/shared": "3.5.35",
+    "vue": "3.5.35"
+  }
 }

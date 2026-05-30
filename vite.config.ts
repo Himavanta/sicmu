@@ -10,6 +10,7 @@ export default defineConfig({
     exports: true,
     platform: 'browser',
     minify: true,
+    format: 'iife',
     css: { minify: true },
   },
   lint: {

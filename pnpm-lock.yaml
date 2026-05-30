@@ -27,9 +27,6 @@ importers:
       bumpp:
         specifier: ^11.1.0
         version: 11.1.0
-      rolldown:
-        specifier: ^1.0.3
-        version: 1.0.3
       sass-embedded:
         specifier: ^1.100.0
         version: 1.100.0
@@ -2354,7 +2351,7 @@ snapshots:
 
   resolve-pkg-maps@1.0.0: {}
 
-  rolldown-plugin-dts@0.25.1(rolldown@1.0.2)(typescript@6.0.3):
+  rolldown-plugin-dts@0.25.1(rolldown@1.0.3)(typescript@6.0.3):
     dependencies:
       '@babel/generator': 8.0.0-rc.5
       '@babel/helper-validator-identifier': 8.0.0-rc.5
@@ -2364,7 +2361,7 @@ snapshots:
       dts-resolver: 3.0.0
       get-tsconfig: 5.0.0-beta.5
       obug: 2.1.1
-      rolldown: 1.0.2
+      rolldown: 1.0.3
     optionalDependencies:
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -2559,8 +2556,8 @@ snapshots:
       import-without-cache: 0.4.0
       obug: 2.1.1
       picomatch: 4.0.4
-      rolldown: 1.0.2
-      rolldown-plugin-dts: 0.25.1(rolldown@1.0.2)(typescript@6.0.3)
+      rolldown: 1.0.3
+      rolldown-plugin-dts: 0.25.1(rolldown@1.0.3)(typescript@6.0.3)
       semver: 7.8.1
       tinyexec: 1.2.2
       tinyglobby: 0.2.16

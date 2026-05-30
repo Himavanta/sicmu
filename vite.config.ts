@@ -6,6 +6,11 @@ import { defineConfig } from 'vite-plus'
 const OUT_DIR = 'dist'
 
 export default defineConfig({
+  define: {
+    __VUE_OPTIONS_API__: 'false',
+    __VUE_PROD_DEVTOOLS__: 'false',
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
+  },
   oxc: { jsx: { importSource: 'vue' } },
   staged: {
     '*': 'vp check --fix',

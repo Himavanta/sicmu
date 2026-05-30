@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 
-alert('sss')
-
 import app from './app.tsx'
 
-createApp(app).mount(document.body!)
+const box = document.createElement('div')
+document.body.append(box)
+createApp(app).mount(box)

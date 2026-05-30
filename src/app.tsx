@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 
-import style from './app.module.scss'
+import FloatingShell from './components/FloatingShell.tsx'
 
 export default defineComponent(() => {
-  return () => <div class={style.App}>test</div>
+  return () => <FloatingShell />
 })

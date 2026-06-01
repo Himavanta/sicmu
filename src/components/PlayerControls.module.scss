@@ -13,7 +13,7 @@
   padding: 0;
   background: none;
   border: none;
-  color: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   border-radius: 50%;
   transition:
@@ -21,8 +21,8 @@
     background 0.15s ease;
 
   &:hover {
-    color: #000;
-    background: rgba(0, 0, 0, 0.06);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
   }
 
   &:active {
@@ -31,17 +31,17 @@
 }
 
 .btnActive {
-  color: #000;
-  background: rgba(0, 0, 0, 0.1);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .playBtn {
-  width: 36px;
-  height: 36px;
-  background: rgba(0, 0, 0, 0.08);
-  color: #000;
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.14);
+    background: rgba(255, 255, 255, 0.25);
   }
 }

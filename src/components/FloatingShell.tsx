@@ -17,12 +17,12 @@ export default defineComponent(() => {
 
   return () => (
     <div class={[style.shell, showPlaylist.value && style.shellExpanded].filter(Boolean).join(' ')}>
-      <div class={style.player}>
+      <div class={style.banner}>
         <PlayerArtwork />
-        <div class={style.body}>
+        <div class={style.overlay}>
           <PlayerInfo />
           <PlayerProgress />
-          <div class={style.actions}>
+          <div class={style.controlsRow}>
             <PlayerControls showPlaylist={showPlaylist.value} onTogglePlaylist={togglePlaylist} />
             <PlayerVolume />
           </div>

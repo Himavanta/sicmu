@@ -4,7 +4,6 @@ import PlayerArtwork from './PlayerArtwork.tsx'
 import PlayerControls from './PlayerControls.tsx'
 import PlayerInfo from './PlayerInfo.tsx'
 import PlayerProgress from './PlayerProgress.tsx'
-import PlayerVolume from './PlayerVolume.tsx'
 import Playlist from './Playlist.tsx'
 
 import style from './FloatingShell.module.scss'
@@ -21,10 +20,13 @@ export default defineComponent(() => {
         <PlayerArtwork />
         <div class={style.overlay}>
           <PlayerInfo />
-          <PlayerProgress />
-          <div class={style.controlsRow}>
+          <div class={style.midRow}>
             <PlayerControls showPlaylist={showPlaylist.value} onTogglePlaylist={togglePlaylist} />
-            <PlayerVolume />
+            <PlayerProgress />
+          </div>
+          <div class={style.progTrack}>
+            <div class={style.progFill} style={{ width: '35%' }} />
+            <div class={style.progThumb} />
           </div>
         </div>
       </div>

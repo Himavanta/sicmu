@@ -8,12 +8,13 @@
   font-family:
     -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
   color: #000;
+  margin-bottom: 10px;
 }
 
 /* ── Banner ── */
 .banner {
   position: relative;
-  height: 120px;
+  height: 100px;
 }
 
 /* ── Overlay（hover 浮现） ── */
@@ -23,7 +24,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 5px;
+  gap: 8px;
   padding: 10px 12px;
   background: linear-gradient(
     to top,
@@ -31,11 +32,11 @@
     rgba(0, 0, 0, 0.2) 40%,
     transparent 55%
   );
-  opacity: 0;
+  opacity: 0.3;
   transition: opacity 0.2s ease;
   pointer-events: none;
 
-  .banner:hover & {
+  .shell:hover & {
     opacity: 1;
     pointer-events: auto;
   }
@@ -51,10 +52,11 @@
   margin-left: auto;
 }
 
-/* ── 进度条（底部细线） ── */
+/* ── 进度条 ── */
 .progTrack {
   position: relative;
   height: 2px;
+  margin: 2px 0;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 1px;
   cursor: pointer;

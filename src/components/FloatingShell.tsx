@@ -20,13 +20,13 @@ export default defineComponent(() => {
         <PlayerArtwork />
         <div class={style.overlay}>
           <PlayerInfo />
-          <div class={style.midRow}>
-            <PlayerControls showPlaylist={showPlaylist.value} onTogglePlaylist={togglePlaylist} />
-            <PlayerProgress />
-          </div>
           <div class={style.progTrack}>
             <div class={style.progFill} style={{ width: '35%' }} />
             <div class={style.progThumb} />
+          </div>
+          <div class={style.midRow}>
+            <PlayerControls showPlaylist={showPlaylist.value} onTogglePlaylist={togglePlaylist} />
+            <PlayerProgress />
           </div>
         </div>
       </div>

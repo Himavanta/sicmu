@@ -9,10 +9,7 @@ export default defineComponent(() => {
         <div class={style.fill} style={{ width: '35%' }} />
         <div class={style.thumb} />
       </div>
-      <div class={style.timeRow}>
-        <span class={style.time}>1:23</span>
-        <span class={style.time}>3:45</span>
-      </div>
+      <span class={style.time}>1:23 / 3:45</span>
     </div>
   )
 })

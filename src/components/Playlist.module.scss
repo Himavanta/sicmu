@@ -1,6 +1,6 @@
 .playlist {
   background: rgba(255, 255, 255, 0.04);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   cursor: default;
 }
 
@@ -8,7 +8,7 @@
   padding: 10px 14px 6px;
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -26,12 +26,12 @@
   transition: background 0.15s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.04);
   }
 }
 
 .itemPlaying {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .itemIndex {
@@ -45,7 +45,7 @@
 .indexNum {
   font-size: 11px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .itemInfo {
@@ -59,20 +59,20 @@
 .itemTitle {
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(0, 0, 0, 0.85);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .itemTitlePlaying {
-  color: #fff;
+  color: #000;
 }
 
 .itemArtist {
   font-size: 11px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(0, 0, 0, 0.35);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -82,6 +82,6 @@
   font-size: 11px;
   font-weight: 400;
   font-variant-numeric: tabular-nums;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
 }

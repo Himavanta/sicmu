@@ -1,11 +1,14 @@
 .progress {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .track {
+  flex: 1;
   position: relative;
   height: 3px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   cursor: pointer;
 }
@@ -13,7 +16,7 @@
 .fill {
   height: 100%;
   width: 0;
-  background: #fff;
+  background: #000;
   border-radius: 2px;
   transition: width 0.1s linear;
 }
@@ -22,28 +25,22 @@
   position: absolute;
   top: 50%;
   left: 35%;
-  width: 8px;
-  height: 8px;
-  background: #fff;
+  width: 7px;
+  height: 7px;
+  background: #000;
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.15s ease;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
   .track:hover & {
     transform: translate(-50%, -50%) scale(1);
   }
 }
 
-.timeRow {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2px;
-}
-
 .time {
   font-size: 10px;
   font-weight: 400;
   font-variant-numeric: tabular-nums;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
 }

@@ -1,9 +1,7 @@
 .controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 6px;
+  gap: 6px;
 }
 
 .btn {
@@ -15,7 +13,7 @@
   padding: 0;
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.55);
   cursor: pointer;
   border-radius: 50%;
   transition:
@@ -23,8 +21,8 @@
     background 0.15s ease;
 
   &:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.12);
+    color: #000;
+    background: rgba(0, 0, 0, 0.06);
   }
 
   &:active {
@@ -33,17 +31,17 @@
 }
 
 .btnActive {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.15);
+  color: #000;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .playBtn {
   width: 36px;
   height: 36px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background: rgba(0, 0, 0, 0.08);
+  color: #000;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.14);
   }
 }

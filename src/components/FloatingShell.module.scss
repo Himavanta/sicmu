@@ -1,52 +1,36 @@
 .shell {
-  position: fixed;
-  z-index: 99999;
-  width: 240px;
-  background: rgba(44, 44, 48, 0.9);
-  backdrop-filter: blur(40px) saturate(1.2);
-  -webkit-backdrop-filter: blur(40px) saturate(1.2);
-  border: none;
-  border-radius: 18px;
+  background: #fff;
+  border-radius: 6px;
   box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.15),
-    0 28px 80px rgba(0, 0, 0, 0.2);
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    0 12px 40px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  cursor: grab;
-  user-select: none;
   font-family:
     -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  color: #fff;
-  transition: box-shadow 0.15s ease;
+  color: #000;
+  margin-bottom: 10px;
 }
 
-/* ── Player（封面区域，保持正方形） ── */
 .player {
-  position: relative;
-  aspect-ratio: 1 / 1;
+  display: flex;
+  height: 100px;
 }
 
-/* ── Overlay（hover 浮现） ── */
-.overlay {
-  position: absolute;
-  inset: 0;
+.body {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 14px;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0.25) 40%,
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
+  justify-content: center;
+  padding: 8px 12px;
+  gap: 2px;
+  min-width: 0;
+}
 
-  .shell:hover & {
-    opacity: 1;
-    pointer-events: auto;
-  }
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
 }
 
 /* ── Playlist wrap（展开/收起动画） ── */
@@ -54,6 +38,7 @@
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  margin-top: -1px;
 
   > * {
     overflow: hidden;

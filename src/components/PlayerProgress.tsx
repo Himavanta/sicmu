@@ -1,7 +1,13 @@
 import { defineComponent } from 'vue'
 
+import { state, duration, formatTime } from '../state.ts'
+
 import style from './PlayerProgress.module.scss'
 
 export default defineComponent(() => {
-  return () => <span class={style.time}>1:23 / 3:10</span>
+  return () => (
+    <span class={style.time}>
+      {formatTime(state.currentTime)} / {formatTime(duration.value)}
+    </span>
+  )
 })

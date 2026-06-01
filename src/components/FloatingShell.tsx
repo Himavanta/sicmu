@@ -27,16 +27,26 @@ export default defineComponent(() => {
 
   function handleSeekStart(e: MouseEvent) {
     isSeeking.value = true
-    state.currentTime = calcTime(e)
+    const t = calcTime(e)
+    state.currentTime = t
+    // 同步到 audio 元素
+    const audio = document.querySelector('audio')
+    if (audio) audio.currentTime = t
   }
 
   function handleSeekMove(e: MouseEvent) {
     if (!isSeeking.value) return
-    state.currentTime = calcTime(e)
+    const t = calcTime(e)
+    state.currentTime = t
   }
 
-  function handleSeekEnd() {
+  function handleSeekEnd(e: MouseEvent) {
+    if (!isSeeking.value) return
     isSeeking.value = false
+    const t = calcTime(e)
+    state.currentTime = t
+    const audio = document.querySelector('audio')
+    if (audio) audio.currentTime = t
   }
 
   onMounted(() => {

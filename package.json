@@ -25,10 +25,10 @@
     "access": "public"
   },
   "scripts": {
+    "dev": "vp dev",
     "build": "vp pack",
-    "dev": "vp pack --watch",
-    "test": "vp test",
     "check": "vp check",
+    "watch": "vp pack --watch",
     "prepublishOnly": "vp run build",
     "prepare": "vp config"
   },

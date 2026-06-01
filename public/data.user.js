@@ -5,6 +5,7 @@
 // @description  油猴脚本
 // @author       you
 // @match        https://www.bilibili.com/*
+// @match        http://localhost:*/*
 // @grant        none
 // @require      file:///Users/seven/Desktop/mine/sicmu/dist/index.iife.js
 // ==/UserScript==

@@ -1,0 +1,19 @@
+.artwork {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.gradient {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, #ff6b9d 0%, transparent 60%),
+    radial-gradient(ellipse 70% 55% at 80% 15%, #a855f7 0%, transparent 55%),
+    radial-gradient(ellipse 90% 70% at 45% 90%, #22d3ee 0%, #312e81 70%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  .artwork:hover & {
+    transform: scale(1.06);
+  }
+}

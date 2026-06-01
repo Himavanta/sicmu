@@ -40,34 +40,50 @@
   }
 }
 
-/* 装饰进度细线 */
+/* 进度条：视觉 2px 细线，点击区域 16px */
 .progTrack {
   position: relative;
-  height: 2px;
-  margin: 2px 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 1px;
+  height: 16px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
 }
 
+/* 背景轨道线 */
+.progTrack::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 1px;
+}
+
 .progFill {
-  height: 100%;
-  width: 0;
+  position: absolute;
+  left: 0;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
   background: #fff;
   border-radius: 1px;
-  transition: width 0.1s linear;
+  pointer-events: none;
 }
 
 .progThumb {
   position: absolute;
   top: 50%;
-  left: 35%;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background: #fff;
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.15s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
 
   .progTrack:hover & {
     transform: translate(-50%, -50%) scale(1);

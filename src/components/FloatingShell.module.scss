@@ -2,7 +2,6 @@
   position: fixed;
   z-index: 99999;
   width: 240px;
-  aspect-ratio: 1 / 1;
   background: rgba(44, 44, 48, 0.9);
   backdrop-filter: blur(40px) saturate(1.2);
   -webkit-backdrop-filter: blur(40px) saturate(1.2);
@@ -17,8 +16,16 @@
   font-family:
     -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
   color: #fff;
+  transition: box-shadow 0.15s ease;
 }
 
+/* ── Player（封面区域，保持正方形） ── */
+.player {
+  position: relative;
+  aspect-ratio: 1 / 1;
+}
+
+/* ── Overlay（hover 浮现） ── */
 .overlay {
   position: absolute;
   inset: 0;
@@ -34,8 +41,25 @@
   );
   opacity: 0;
   transition: opacity 0.25s ease;
+  pointer-events: none;
 
   .shell:hover & {
     opacity: 1;
+    pointer-events: auto;
   }
+}
+
+/* ── Playlist wrap（展开/收起动画） ── */
+.playlistWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  > * {
+    overflow: hidden;
+  }
+}
+
+.playlistOpen {
+  grid-template-rows: 1fr;
 }

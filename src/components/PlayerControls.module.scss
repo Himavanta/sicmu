@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 14px;
   margin-bottom: 6px;
 }
 
@@ -30,6 +30,11 @@
   &:active {
     transform: scale(0.88);
   }
+}
+
+.btnActive {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .playBtn {

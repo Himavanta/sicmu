@@ -28,10 +28,13 @@ export const currentSong = computed(
   () => state.playlist.find((s) => s.id === state.currentId) ?? null,
 )
 
-/** 当前正在播放的分P 标题（而非视频标题） */
+/** 当前正在播放的标题 */
 export const currentTitle = computed(() => {
   const song = currentSong.value
   if (!song) return ''
+  // 单P 用视频标题（part 通常无意义）
+  if (song.pages.length <= 1) return song.title
+  // 多P 用分P 标题
   const page = song.pages[song.currentPageIndex]
   return page?.title ?? song.title
 })

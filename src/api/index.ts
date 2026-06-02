@@ -1,3 +1,4 @@
+export { biliApi } from './ky-config.ts'
 export { getVideoInfo, getPlayUrl } from './video.ts'
 export { getCurrentUserMid } from './user.ts'
 export { getCreatedFavFolders, getCollectedFavFolders } from './fav.ts'

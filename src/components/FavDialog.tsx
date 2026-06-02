@@ -18,12 +18,14 @@ export default defineComponent(
       queryKey: ['fav-folders', 'created', midQuery.data.value],
       queryFn: () => getCreatedFavFolders(midQuery.data.value!),
       enabled: computed(() => !!midQuery.data.value),
+      retry: 1,
     })
 
     const collectedQuery = useQuery({
       queryKey: ['fav-folders', 'collected', midQuery.data.value],
       queryFn: () => getCollectedFavFolders(midQuery.data.value!),
       enabled: computed(() => !!midQuery.data.value),
+      retry: 1,
     })
 
     const loading = computed(
@@ -78,7 +80,7 @@ export default defineComponent(
                             class={style.folderCover}
                             src={f.cover}
                             alt={f.title}
-                            referrerpolicy='no-referrer'
+                            referrerpolicy='origin'
                           />
                         ) : (
                           <div class={style.folderCover} />

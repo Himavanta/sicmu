@@ -1,4 +1,4 @@
-import ky from 'ky'
+import { biliApi } from './ky-config.ts'
 
 export interface FavFolder {
   id: number
@@ -9,9 +9,8 @@ export interface FavFolder {
 }
 
 export async function getCreatedFavFolders(upMid: number): Promise<FavFolder[]> {
-  const data: any = await ky
+  const data: any = await biliApi
     .get('https://api.bilibili.com/x/v3/fav/folder/created/list-all', {
-      credentials: 'include',
       searchParams: { up_mid: upMid },
     })
     .json()
@@ -25,13 +24,15 @@ export async function getCreatedFavFolders(upMid: number): Promise<FavFolder[]> 
 }
 
 export async function getCollectedFavFolders(upMid: number): Promise<FavFolder[]> {
-  const data: any = await ky
+  const data: any = await biliApi
     .get('https://api.bilibili.com/x/v3/fav/folder/collected/list', {
-      credentials: 'include',
-      searchParams: { up_mid: upMid, ps: 50, pn: 1 },
+      searchParams: { up_mid: upMid, ps: 50, pn: 1, platform: 'web' },
     })
     .json()
-  if (!data.data?.list) return []
+  if (!data.data?.list) {
+    console.debug('getCollectedFavFolders response:', data)
+    return []
+  }
   return data.data.list.map((f: any) => ({
     id: f.id,
     title: f.title,

@@ -1,4 +1,4 @@
-import ky from 'ky'
+import { biliApi } from './ky-config.ts'
 
 /* ══════════════════════════════════════════
    MD5（轻量实现，用于 Wbi 签名）
@@ -114,9 +114,7 @@ function getMixinKey(keys: string): string {
 }
 
 async function getWbiKeys(): Promise<{ imgKey: string; subKey: string }> {
-  const data: any = await ky
-    .get('https://api.bilibili.com/x/web-interface/nav', { credentials: 'include' })
-    .json()
+  const data: any = await biliApi.get('https://api.bilibili.com/x/web-interface/nav').json()
   const imgUrl: string = data.data.wbi_img.img_url
   const subUrl: string = data.data.wbi_img.sub_url
   return {

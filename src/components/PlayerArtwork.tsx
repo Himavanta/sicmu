@@ -15,7 +15,7 @@ export default defineComponent(() => {
               .join(' ')}
             src={currentSong.value.pic}
             alt={currentSong.value.title}
-            referrerpolicy='no-referrer'
+            referrerpolicy='origin'
           />
           <div
             class={[style.overlay, state.playing && style.overlayPlaying].filter(Boolean).join(' ')}

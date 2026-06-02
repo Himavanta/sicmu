@@ -11,12 +11,10 @@ import {
   getSeasonResources,
 } from '../api/index.ts'
 import type { FavFolder, FavResource } from '../api/index.ts'
-import { state } from '../stores/index.ts'
+import { state, play } from '../stores/index.ts'
 import type { Song } from '../stores/types.ts'
 
 import style from './FavDialog.module.scss'
-
-let _nextId = Date.now()
 
 export default defineComponent(
   (props: { onClose: () => void; onPlaylistUpdated?: () => void }) => {
@@ -69,7 +67,7 @@ export default defineComponent(
               }))
             : []
         return {
-          id: _nextId++,
+          id: r.bvid,
           bvid: r.bvid,
           title: r.title,
           artist: r.upperName,
@@ -82,6 +80,10 @@ export default defineComponent(
       })
 
       state.playlist.splice(0, state.playlist.length, ...songs)
+
+      // 直接播第一首
+      await play(0)
+
       props.onPlaylistUpdated?.()
       props.onClose()
     }

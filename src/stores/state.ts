@@ -10,7 +10,7 @@ const defaultPlaylist: Song[] = []
 
 export const state = reactive<PlayerState>({
   playlist: defaultPlaylist,
-  currentId: -1,
+  currentId: '',
   playing: false,
   currentTime: 0,
   loading: false,

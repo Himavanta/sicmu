@@ -9,7 +9,7 @@ export interface Page {
 /* ── 歌曲 ── */
 
 export interface Song {
-  id: number
+  id: string
   bvid: string
   title: string
   artist: string
@@ -24,7 +24,7 @@ export interface Song {
 
 export interface PlayerState {
   playlist: Song[]
-  currentId: number
+  currentId: string
   playing: boolean
   currentTime: number
   loading: boolean

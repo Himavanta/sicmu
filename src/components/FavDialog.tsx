@@ -37,17 +37,20 @@ export default defineComponent(
           <div class={style.header}>
             <span>添加来源</span>
             <button class={style.closeBtn} onClick={() => props.onClose()}>
-              <IconX size={18} />
+              <IconX size={16} />
             </button>
           </div>
 
           <div class={style.content}>
             {loading.value ? (
-              <div class={style.loading}>加载中…</div>
+              <div class={style.loading}>
+                <span class={style.loadingDot} />
+                加载中
+              </div>
             ) : (
               <>
                 <div class={style.section}>
-                  <div class={style.sectionTitle}>我的收藏夹</div>
+                  <div class={style.sectionLabel}>我的收藏夹</div>
                   {createdQuery.data.value?.length === 0 ? (
                     <div class={style.empty}>暂无收藏夹</div>
                   ) : (
@@ -56,7 +59,7 @@ export default defineComponent(
                         <div class={style.folderCover} />
                         <div class={style.folderInfo}>
                           <div class={style.folderTitle}>{f.title}</div>
-                          <div class={style.folderMeta}>{f.mediaCount} 个内容</div>
+                          <div class={style.folderMeta}>{f.mediaCount} 项</div>
                         </div>
                       </div>
                     ))
@@ -64,7 +67,7 @@ export default defineComponent(
                 </div>
 
                 <div class={style.section}>
-                  <div class={style.sectionTitle}>订阅的收藏夹</div>
+                  <div class={style.sectionLabel}>订阅</div>
                   {collectedQuery.data.value?.length === 0 ? (
                     <div class={style.empty}>暂无订阅</div>
                   ) : (
@@ -83,7 +86,7 @@ export default defineComponent(
                         <div class={style.folderInfo}>
                           <div class={style.folderTitle}>{f.title}</div>
                           <div class={style.folderMeta}>
-                            {f.mediaCount} 个内容{f.upperName ? ` · ${f.upperName}` : ''}
+                            {f.mediaCount} 项{f.upperName ? ` · ${f.upperName}` : ''}
                           </div>
                         </div>
                       </div>

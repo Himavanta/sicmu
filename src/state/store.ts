@@ -1,0 +1,145 @@
+import { reactive, computed } from 'vue'
+
+import type { Song, PlayerState, FlatTrack } from './types.ts'
+
+/* ── 播放列表 ── */
+
+const defaultPlaylist: Song[] = [
+  {
+    id: 1,
+    bvid: 'BV1oMVd6HE2B',
+    title: '【推荐歌单】2026年热歌榜霸榜歌曲合集',
+    artist: 'Music_精彩音乐',
+    duration: 19561,
+    pic: 'http://i0.hdslb.com/bfs/archive/62e7aa50951e5f93227a09791e5aa470fbdf821e.jpg',
+    cid: 0,
+    pages: [],
+    currentPageIndex: 0,
+  },
+  {
+    id: 2,
+    bvid: 'BV1oMVd6HE2B',
+    title: '加载中…',
+    artist: '',
+    duration: 0,
+    pic: '',
+    cid: 0,
+    pages: [],
+    currentPageIndex: 0,
+  },
+  {
+    id: 3,
+    bvid: 'BV1oMVd6HE2B',
+    title: '加载中…',
+    artist: '',
+    duration: 0,
+    pic: '',
+    cid: 0,
+    pages: [],
+    currentPageIndex: 0,
+  },
+  {
+    id: 4,
+    bvid: 'BV1oMVd6HE2B',
+    title: '加载中…',
+    artist: '',
+    duration: 0,
+    pic: '',
+    cid: 0,
+    pages: [],
+    currentPageIndex: 0,
+  },
+  {
+    id: 5,
+    bvid: 'BV1oMVd6HE2B',
+    title: '加载中…',
+    artist: '',
+    duration: 0,
+    pic: '',
+    cid: 0,
+    pages: [],
+    currentPageIndex: 0,
+  },
+]
+
+/* ── 状态 ── */
+
+export const state = reactive<PlayerState>({
+  playlist: defaultPlaylist,
+  currentIndex: 1,
+  playing: false,
+  currentTime: 0,
+  loading: false,
+})
+
+/* ── 计算属性 ── */
+
+export const currentSong = computed(() => state.playlist[state.currentIndex])
+
+/** 当前正在播放的分P 标题（而非视频标题） */
+export const currentTitle = computed(() => {
+  const song = state.playlist[state.currentIndex]
+  if (!song) return ''
+  const page = song.pages[song.currentPageIndex]
+  return page?.title ?? song.title
+})
+
+export const duration = computed(() => {
+  const song = state.playlist[state.currentIndex]
+  if (!song) return 0
+  if (song.pages.length > 1 && song.pages[song.currentPageIndex]) {
+    return song.pages[song.currentPageIndex].duration
+  }
+  return song.duration
+})
+
+export const progress = computed(() =>
+  duration.value > 0 ? (state.currentTime / duration.value) * 100 : 0,
+)
+
+/* ── 工具函数 ── */
+
+export function formatTime(seconds: number): string {
+  const m = Math.floor(seconds / 60)
+  const s = Math.floor(seconds % 60)
+  return `${m}:${s.toString().padStart(2, '0')}`
+}
+
+/** 展平的播放列表：每首歌曲的每个分P 各占一行 */
+export function getFlatPlaylist(): FlatTrack[] {
+  const result: FlatTrack[] = []
+  for (let si = 0; si < state.playlist.length; si++) {
+    const song = state.playlist[si]
+    if (song.pages.length > 1) {
+      for (let pi = 0; pi < song.pages.length; pi++) {
+        const page = song.pages[pi]
+        result.push({
+          songIndex: si,
+          pageIndex: pi,
+          title: page.title,
+          duration: page.duration,
+        })
+      }
+    } else {
+      result.push({
+        songIndex: si,
+        pageIndex: 0,
+        title: song.title,
+        duration: song.duration,
+      })
+    }
+  }
+  return result
+}
+
+/** 当前在展平列表中的索引 */
+export function getCurrentFlatIndex(): number {
+  let idx = 0
+  for (let si = 0; si < state.currentIndex; si++) {
+    const song = state.playlist[si]
+    idx += Math.max(song.pages.length, 1)
+  }
+  const song = state.playlist[state.currentIndex]
+  if (song) idx += song.currentPageIndex
+  return idx
+}

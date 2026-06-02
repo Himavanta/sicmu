@@ -1,20 +1,59 @@
 .playlist {
   background: rgba(255, 255, 255, 0.04);
   cursor: default;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 10px 14px 6px;
   font-size: 11px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.8px;
+  flex-shrink: 0;
 }
 
+.headerCount {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgba(0, 0, 0, 0.2);
+}
+
+/* ── 滚动列表 ── */
+
 .list {
+  max-height: 300px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0 0 6px;
 }
+
+.list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.empty {
+  padding: 20px 14px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+/* ── 歌曲行 ── */
 
 .item {
   display: flex;
@@ -66,15 +105,6 @@
 
 .itemTitlePlaying {
   color: #000;
-}
-
-.itemArtist {
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.35);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .itemDuration {

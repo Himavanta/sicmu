@@ -1,6 +1,6 @@
 import { defineComponent, type PropType } from 'vue'
 
-import { state, togglePlay, prev, next } from '../state.ts'
+import { state, togglePlay, prev, next } from '../state/index.ts'
 
 import style from './PlayerControls.module.scss'
 

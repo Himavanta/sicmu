@@ -1,59 +1,8 @@
-import { reactive, computed } from 'vue'
+import type { VideoInfo } from './types.ts'
 
-/* ── 类型定义 ── */
-
-export interface Song {
-  id: number
-  bvid: string
-  title: string
-  artist: string
-  duration: number
-  cid?: number
-}
-
-/* ── 播放列表 ── */
-
-const defaultPlaylist: Song[] = [
-  { id: 1, bvid: 'BV1AUDWBvEF3', title: '午夜旋律', artist: 'Sicmu', duration: 230 },
-  { id: 2, bvid: 'BV1AUDWBvEF3', title: '城市之光', artist: 'Sicmu', duration: 252 },
-  { id: 3, bvid: 'BV1AUDWBvEF3', title: '星河', artist: 'Sicmu', duration: 208 },
-  { id: 4, bvid: 'BV1AUDWBvEF3', title: '雨后', artist: 'Sicmu', duration: 301 },
-  { id: 5, bvid: 'BV1AUDWBvEF3', title: '晨曦', artist: 'Sicmu', duration: 235 },
-]
-
-/* ── 状态 ── */
-
-export interface PlayerState {
-  playlist: Song[]
-  currentIndex: number
-  playing: boolean
-  currentTime: number
-  loading: boolean
-}
-
-export const state = reactive<PlayerState>({
-  playlist: defaultPlaylist,
-  currentIndex: 1,
-  playing: false,
-  currentTime: 0,
-  loading: false,
-})
-
-export const currentSong = computed(() => state.playlist[state.currentIndex])
-
-export const duration = computed(() => state.playlist[state.currentIndex].duration)
-
-export const progress = computed(() =>
-  duration.value > 0 ? (state.currentTime / duration.value) * 100 : 0,
-)
-
-export function formatTime(seconds: number): string {
-  const m = Math.floor(seconds / 60)
-  const s = Math.floor(seconds % 60)
-  return `${m}:${s.toString().padStart(2, '0')}`
-}
-
-/* ── MD5（轻量实现） ── */
+/* ══════════════════════════════════════════
+   MD5（轻量实现，用于 Wbi 签名）
+   ══════════════════════════════════════════ */
 
 function md5(s: string): string {
   function rotl(x: number, n: number) {
@@ -146,7 +95,9 @@ function md5(s: string): string {
   return toHex(h0) + toHex(h1) + toHex(h2) + toHex(h3)
 }
 
-/* ── B站 API ── */
+/* ══════════════════════════════════════════
+   Wbi 签名
+   ══════════════════════════════════════════ */
 
 const mixinKeyEncTab = [
   46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49, 33, 9, 42, 19, 29, 28,
@@ -189,15 +140,30 @@ async function encryptWbi(
   return { ...params, wts, w_rid: wRid }
 }
 
-async function getVideoCid(bvid: string): Promise<number> {
+/* ══════════════════════════════════════════
+   公开 API：获取视频信息 & 播放地址
+   ══════════════════════════════════════════ */
+
+export async function getVideoInfo(bvid: string): Promise<VideoInfo> {
   const resp = await fetch(`https://api.bilibili.com/x/web-interface/view?bvid=${bvid}`, {
     credentials: 'include',
   })
   const data = await resp.json()
-  return data.data.cid
+  return {
+    cid: data.data.cid,
+    title: data.data.title,
+    artist: data.data.owner.name,
+    duration: data.data.duration,
+    pic: data.data.pic,
+    pages: (data.data.pages ?? []).map((p: any) => ({
+      cid: p.cid,
+      title: p.part,
+      duration: p.duration,
+    })),
+  }
 }
 
-async function getPlayUrl(bvid: string, cid: number): Promise<string> {
+export async function getPlayUrl(bvid: string, cid: number): Promise<string> {
   const params = await encryptWbi({
     bvid,
     cid,
@@ -212,88 +178,4 @@ async function getPlayUrl(bvid: string, cid: number): Promise<string> {
   })
   const data = await resp.json()
   return data.data.durl[0].url
-}
-
-/* ── 音频管理 ── */
-
-let audio: HTMLAudioElement | null = null
-function ensureAudio(): HTMLAudioElement {
-  if (!audio) {
-    audio = new Audio()
-    audio.addEventListener('timeupdate', () => {
-      if (audio && !audio.paused) {
-        state.currentTime = Math.floor(audio.currentTime)
-        state.playing = true
-      }
-    })
-    audio.addEventListener('ended', () => {
-      state.playing = false
-      state.currentTime = 0
-      next()
-    })
-    audio.addEventListener('waiting', () => {
-      state.loading = true
-    })
-    audio.addEventListener('canplay', () => {
-      state.loading = false
-    })
-    audio.addEventListener('error', () => {
-      state.loading = false
-    })
-  }
-  return audio
-}
-
-/* ── 播放控制 ── */
-
-export async function play(index: number) {
-  const song = state.playlist[index]
-  if (!song) return
-
-  state.currentIndex = index
-  state.currentTime = 0
-  state.loading = true
-
-  try {
-    const el = ensureAudio()
-
-    // 获取 cid
-    if (!song.cid) {
-      song.cid = await getVideoCid(song.bvid)
-    }
-
-    // 获取播放地址
-    const url = await getPlayUrl(song.bvid, song.cid)
-
-    el.src = url
-    await el.play()
-    state.playing = true
-  } catch (e) {
-    console.error('播放失败:', e)
-    state.playing = false
-    state.loading = false
-  }
-}
-
-export function togglePlay() {
-  const el = ensureAudio()
-  if (state.playing) {
-    el.pause()
-    state.playing = false
-  } else if (el.src) {
-    el.play()
-    state.playing = true
-  } else {
-    play(state.currentIndex)
-  }
-}
-
-export function next() {
-  const nextIdx = (state.currentIndex + 1) % state.playlist.length
-  play(nextIdx)
-}
-
-export function prev() {
-  const prevIdx = (state.currentIndex - 1 + state.playlist.length) % state.playlist.length
-  play(prevIdx)
 }

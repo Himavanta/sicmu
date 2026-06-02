@@ -1,6 +1,6 @@
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 
-import { state, currentSong, duration } from '../state.ts'
+import { state, currentTitle, duration, seek, previewSeek } from '../state/index.ts'
 import PlayerArtwork from './PlayerArtwork.tsx'
 import PlayerControls from './PlayerControls.tsx'
 import PlayerInfo from './PlayerInfo.tsx'
@@ -27,26 +27,18 @@ export default defineComponent(() => {
 
   function handleSeekStart(e: MouseEvent) {
     isSeeking.value = true
-    const t = calcTime(e)
-    state.currentTime = t
-    // 同步到 audio 元素
-    const audio = document.querySelector('audio')
-    if (audio) audio.currentTime = t
+    seek(calcTime(e))
   }
 
   function handleSeekMove(e: MouseEvent) {
     if (!isSeeking.value) return
-    const t = calcTime(e)
-    state.currentTime = t
+    previewSeek(calcTime(e))
   }
 
   function handleSeekEnd(e: MouseEvent) {
     if (!isSeeking.value) return
     isSeeking.value = false
-    const t = calcTime(e)
-    state.currentTime = t
-    const audio = document.querySelector('audio')
-    if (audio) audio.currentTime = t
+    seek(calcTime(e))
   }
 
   onMounted(() => {
@@ -69,7 +61,7 @@ export default defineComponent(() => {
         <div class={style.banner}>
           <PlayerArtwork />
           <div class={style.overlay}>
-            <PlayerInfo title={currentSong.value.title} />
+            <PlayerInfo title={currentTitle.value} />
             <div ref={progRef} class={style.progTrack} onMousedown={handleSeekStart}>
               <div class={style.progFill} style={{ width: `${pct}%` }} />
               <div class={style.progThumb} style={{ left: `${pct}%` }} />

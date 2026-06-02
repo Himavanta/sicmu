@@ -4,34 +4,27 @@
 }
 
 .header {
-  padding: 10px 14px 6px;
+  padding: 10px 14px;
   font-size: 11px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 /* ── 滚动列表 ── */
 
 .list {
   max-height: 260px;
-  overflow-y: auto;
+  overflow-y: scroll;
   overscroll-behavior: contain;
   padding: 0 0 6px;
+  scrollbar-width: none;
 }
 
 .list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.list::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
-  border-radius: 2px;
-}
-
-.list::-webkit-scrollbar-track {
-  background: transparent;
+  display: none;
 }
 
 .empty {
@@ -39,6 +32,54 @@
   font-size: 12px;
   color: rgba(0, 0, 0, 0.25);
   text-align: center;
+}
+
+/* ── 播放波纹（始终运行，无跳跃） ── */
+
+.playingBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 14px;
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.playingBars span {
+  display: block;
+  width: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  transform-origin: bottom;
+  will-change: transform;
+  animation: barBounce 0.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.playingBars span:nth-child(1) {
+  height: 10px;
+}
+.playingBars span:nth-child(2) {
+  height: 14px;
+  animation-delay: 0.12s;
+}
+.playingBars span:nth-child(3) {
+  height: 11px;
+  animation-delay: 0.24s;
+}
+
+.playingBarsActive {
+  opacity: 1;
+  position: static;
+}
+
+@keyframes barBounce {
+  0% {
+    transform: scaleY(0.15);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 /* ════════════════════════════════════════
@@ -138,6 +179,7 @@
   justify-content: center;
   width: 14px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .childNum {
@@ -197,6 +239,7 @@
   justify-content: center;
   width: 16px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .singleNum {

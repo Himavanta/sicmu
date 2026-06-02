@@ -1,4 +1,5 @@
-import { IconPlayerPlay, IconChevronDown, IconChevronRight } from '@tabler/icons-vue'
+import IconChevronDown from '@tabler/icons-vue/dist/esm/icons/IconChevronDown.mjs'
+import IconChevronRight from '@tabler/icons-vue/dist/esm/icons/IconChevronRight.mjs'
 import { defineComponent, ref } from 'vue'
 
 import { state, play, playPage } from '../state/index.ts'
@@ -35,6 +36,7 @@ export default defineComponent(() => {
 
             if (multi) {
               // ── 多P：父级文件夹 ──
+
               rows.push(
                 <div
                   class={[style.parent, isSongPlaying && style.parentPlaying]
@@ -75,11 +77,16 @@ export default defineComponent(() => {
                       onClick={() => void playPage(si, pi)}
                     >
                       <div class={style.childIndex}>
-                        {isPagePlaying ? (
-                          <IconPlayerPlay size={10} />
-                        ) : (
-                          <span class={style.childNum}>{pi + 1}</span>
-                        )}
+                        <span
+                          class={[style.playingBars, isPagePlaying && style.playingBarsActive]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          <span />
+                          <span />
+                          <span />
+                        </span>
+                        {!isPagePlaying && <span class={style.childNum}>{pi + 1}</span>}
                       </div>
                       <span
                         class={[style.childTitle, isPagePlaying && style.childTitlePlaying]
@@ -105,11 +112,16 @@ export default defineComponent(() => {
                   onClick={() => void play(si)}
                 >
                   <div class={style.singleIndex}>
-                    {isPlaying ? (
-                      <IconPlayerPlay size={10} />
-                    ) : (
-                      <span class={style.singleNum}>{singleNum}</span>
-                    )}
+                    <span
+                      class={[style.playingBars, isPlaying && style.playingBarsActive]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      <span />
+                      <span />
+                      <span />
+                    </span>
+                    {!isPlaying && <span class={style.singleNum}>{singleNum}</span>}
                   </div>
                   <div class={style.singleInfo}>
                     <span

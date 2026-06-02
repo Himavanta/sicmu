@@ -1,10 +1,8 @@
-import {
-  IconPlayerSkipBack,
-  IconPlayerPlay,
-  IconPlayerPause,
-  IconPlayerSkipForward,
-  IconPlaylist,
-} from '@tabler/icons-vue'
+import IconPlayerPause from '@tabler/icons-vue/dist/esm/icons/IconPlayerPause.mjs'
+import IconPlayerPlay from '@tabler/icons-vue/dist/esm/icons/IconPlayerPlay.mjs'
+import IconPlayerSkipBack from '@tabler/icons-vue/dist/esm/icons/IconPlayerSkipBack.mjs'
+import IconPlayerSkipForward from '@tabler/icons-vue/dist/esm/icons/IconPlayerSkipForward.mjs'
+import IconPlaylist from '@tabler/icons-vue/dist/esm/icons/IconPlaylist.mjs'
 import { defineComponent, type PropType } from 'vue'
 
 import { state, togglePlay, prev, next } from '../state/index.ts'

@@ -1,33 +1,21 @@
 .playlist {
   background: rgba(255, 255, 255, 0.04);
   cursor: default;
-  display: flex;
-  flex-direction: column;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   padding: 10px 14px 6px;
   font-size: 11px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  flex-shrink: 0;
-}
-
-.headerCount {
-  font-weight: 400;
-  letter-spacing: 0;
-  color: rgba(0, 0, 0, 0.2);
 }
 
 /* ── 滚动列表 ── */
 
 .list {
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 0 0 6px;
@@ -53,9 +41,140 @@
   text-align: center;
 }
 
-/* ── 歌曲行 ── */
+/* ════════════════════════════════════════
+   多P - 父级文件夹行
+   ════════════════════════════════════════ */
 
-.item {
+.parent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.parentPlaying {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.parentArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.parentInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.parentTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.parentTitlePlaying {
+  color: #000;
+}
+
+.parentMeta {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.parentDuration {
+  font-size: 11px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   多P - 分P 子级行
+   ════════════════════════════════════════ */
+
+.child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 36px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
+}
+
+.childPlaying {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.childIndex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+.childNum {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.childTitle {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.childTitlePlaying {
+  color: #000;
+  font-weight: 500;
+}
+
+.childDuration {
+  font-size: 11px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   单P - 扁平行
+   ════════════════════════════════════════ */
+
+.single {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -68,11 +187,11 @@
   }
 }
 
-.itemPlaying {
+.singlePlaying {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.itemIndex {
+.singleIndex {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,21 +199,18 @@
   flex-shrink: 0;
 }
 
-.indexNum {
+.singleNum {
   font-size: 11px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.3);
 }
 
-.itemInfo {
+.singleInfo {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
 }
 
-.itemTitle {
+.singleTitle {
   font-size: 13px;
   font-weight: 500;
   color: rgba(0, 0, 0, 0.85);
@@ -103,11 +219,11 @@
   text-overflow: ellipsis;
 }
 
-.itemTitlePlaying {
+.singleTitlePlaying {
   color: #000;
 }
 
-.itemDuration {
+.singleDuration {
   font-size: 11px;
   font-weight: 400;
   font-variant-numeric: tabular-nums;

@@ -17,6 +17,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      '@tabler/icons-vue':
+        specifier: ^3.44.0
+        version: 3.44.0(vue@3.5.35(typescript@6.0.3))
     devDependencies:
       '@tsdown/css':
         specifier: ^0.22.1
@@ -700,6 +704,14 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@tabler/icons-vue@3.44.0':
+    resolution: {integrity: sha512-mABxdhq3SWo2ZI77w/t0reiOGNim/SEDSlfMT5PeiWA3cZwnZoQUYRiq/X6SgeTaA7LzCTX0IuvQWVf4RWOvsg==}
+    peerDependencies:
+      vue: '>=3.0.1'
+
+  '@tabler/icons@3.44.0':
+    resolution: {integrity: sha512-Wn0AOZG9sg0L+bjfMqq4eNhC6pQjIrk94LvvWYNYkY8KH8wC3YILRzQlrnVJc4FUeMxH/AK97QsYCX35H3LndA==}
 
   '@tsdown/css@0.22.1':
     resolution: {integrity: sha512-svCG1LXBEQl4I0rFzAcgL7eZ/2hU/qcJ7uAe1OYO/iThq0DioUqrJq54z0bjG8IdbNEV441IpupC7XTxDGUT0Q==}
@@ -1955,6 +1967,13 @@ snapshots:
   '@rolldown/pluginutils@1.0.1': {}
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@tabler/icons-vue@3.44.0(vue@3.5.35(typescript@6.0.3))':
+    dependencies:
+      '@tabler/icons': 3.44.0
+      vue: 3.5.35(typescript@6.0.3)
+
+  '@tabler/icons@3.44.0': {}
 
   '@tsdown/css@0.22.1(jiti@2.7.0)(postcss@8.5.15)(sass-embedded@1.100.0)(sass@1.100.0)(tsdown@0.22.1)(yaml@2.9.0)':
     dependencies:

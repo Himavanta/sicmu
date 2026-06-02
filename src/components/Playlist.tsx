@@ -1,6 +1,6 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
-import { getFlatPlaylist, getCurrentFlatIndex, playPage } from '../state/index.ts'
+import { state, play, playPage } from '../state/index.ts'
 
 import style from './Playlist.module.scss'
 
@@ -11,47 +11,132 @@ function formatDuration(totalSeconds: number): string {
 }
 
 export default defineComponent(() => {
+  const expandedMap = ref<Record<number, boolean>>({})
+
+  function toggleExpand(index: number) {
+    expandedMap.value = { ...expandedMap.value, [index]: !expandedMap.value[index] }
+  }
+
   return () => {
-    const flat = getFlatPlaylist()
-    const currentFlat = getCurrentFlatIndex()
+    let singleNum = 0
 
     return (
       <div class={style.playlist}>
-        <div class={style.header}>
-          播放列表
-          <span class={style.headerCount}>{flat.length} 首</span>
-        </div>
+        <div class={style.header}>播放列表</div>
         <div class={style.list}>
-          {flat.length === 0 && <div class={style.empty}>暂无内容，点击歌曲播放</div>}
-          {flat.map((track, fi) => {
-            const isCurrent = fi === currentFlat
-            return (
-              <div
-                class={[style.item, isCurrent && style.itemPlaying].filter(Boolean).join(' ')}
-                key={`${track.songIndex}-${track.pageIndex}`}
-                onClick={() => void playPage(track.songIndex, track.pageIndex)}
-              >
-                <div class={style.itemIndex}>
-                  {isCurrent ? (
-                    <svg viewBox='0 0 24 24' width='10' height='10' fill='currentColor'>
-                      <path d='M8 5v14l11-7z' />
-                    </svg>
-                  ) : (
-                    <span class={style.indexNum}>{fi + 1}</span>
-                  )}
-                </div>
-                <div class={style.itemInfo}>
-                  <span
-                    class={[style.itemTitle, isCurrent && style.itemTitlePlaying]
-                      .filter(Boolean)
-                      .join(' ')}
-                  >
-                    {track.title}
-                  </span>
-                </div>
-                <span class={style.itemDuration}>{formatDuration(track.duration)}</span>
-              </div>
-            )
+          {state.playlist.length === 0 && <div class={style.empty}>暂无内容</div>}
+          {state.playlist.map((song, si) => {
+            const isSongPlaying = si === state.currentIndex
+            const multi = song.pages.length > 1
+            const isExpanded = expandedMap.value[si]
+
+            const rows: any[] = []
+
+            if (multi) {
+              // ── 多P：父级文件夹 ──
+              rows.push(
+                <div
+                  class={[style.parent, isSongPlaying && style.parentPlaying]
+                    .filter(Boolean)
+                    .join(' ')}
+                  key={`p-${song.id}`}
+                  onClick={() => toggleExpand(si)}
+                >
+                  <div class={style.parentArrow}>
+                    {isExpanded ? (
+                      <svg viewBox='0 0 24 24' width='10' height='10' fill='currentColor'>
+                        <path d='M7 10l5 5 5-5z' />
+                      </svg>
+                    ) : (
+                      <svg viewBox='0 0 24 24' width='10' height='10' fill='currentColor'>
+                        <path d='M10 7l5 5-5 5z' />
+                      </svg>
+                    )}
+                  </div>
+                  <div class={style.parentInfo}>
+                    <span
+                      class={[style.parentTitle, isSongPlaying && style.parentTitlePlaying]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {song.title}
+                    </span>
+                    <span class={style.parentMeta}>{song.pages.length} 首</span>
+                  </div>
+                  <span class={style.parentDuration}>{formatDuration(song.duration)}</span>
+                </div>,
+              )
+
+              // ── 多P：分P 子级 ──
+              if (isExpanded) {
+                for (let pi = 0; pi < song.pages.length; pi++) {
+                  const page = song.pages[pi]
+                  const isPagePlaying = isSongPlaying && song.currentPageIndex === pi
+
+                  rows.push(
+                    <div
+                      class={[style.child, isPagePlaying && style.childPlaying]
+                        .filter(Boolean)
+                        .join(' ')}
+                      key={`c-${page.cid}`}
+                      onClick={() => void playPage(si, pi)}
+                    >
+                      <div class={style.childIndex}>
+                        {isPagePlaying ? (
+                          <svg viewBox='0 0 24 24' width='8' height='8' fill='currentColor'>
+                            <path d='M8 5v14l11-7z' />
+                          </svg>
+                        ) : (
+                          <span class={style.childNum}>{pi + 1}</span>
+                        )}
+                      </div>
+                      <span
+                        class={[style.childTitle, isPagePlaying && style.childTitlePlaying]
+                          .filter(Boolean)
+                          .join(' ')}
+                      >
+                        {page.title}
+                      </span>
+                      <span class={style.childDuration}>{formatDuration(page.duration)}</span>
+                    </div>,
+                  )
+                }
+              }
+            } else {
+              // ── 单P：扁平行 ──
+              singleNum++
+              const isPlaying = isSongPlaying && song.currentPageIndex === 0
+
+              rows.push(
+                <div
+                  class={[style.single, isPlaying && style.singlePlaying].filter(Boolean).join(' ')}
+                  key={`s-${song.id}`}
+                  onClick={() => void play(si)}
+                >
+                  <div class={style.singleIndex}>
+                    {isPlaying ? (
+                      <svg viewBox='0 0 24 24' width='10' height='10' fill='currentColor'>
+                        <path d='M8 5v14l11-7z' />
+                      </svg>
+                    ) : (
+                      <span class={style.singleNum}>{singleNum}</span>
+                    )}
+                  </div>
+                  <div class={style.singleInfo}>
+                    <span
+                      class={[style.singleTitle, isPlaying && style.singleTitlePlaying]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {song.title}
+                    </span>
+                  </div>
+                  <span class={style.singleDuration}>{formatDuration(song.duration)}</span>
+                </div>,
+              )
+            }
+
+            return rows
           })}
         </div>
       </div>

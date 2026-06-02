@@ -1,6 +1,7 @@
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 
 import { state, currentTitle, duration, seek, previewSeek } from '../state/index.ts'
+import FavDialog from './FavDialog.tsx'
 import PlayerArtwork from './PlayerArtwork.tsx'
 import PlayerControls from './PlayerControls.tsx'
 import PlayerInfo from './PlayerInfo.tsx'
@@ -14,6 +15,8 @@ export default defineComponent(() => {
   const togglePlaylist = () => {
     showPlaylist.value = !showPlaylist.value
   }
+
+  const showDialog = ref(false)
 
   const progRef = ref<HTMLElement | null>(null)
   const isSeeking = ref(false)
@@ -55,32 +58,48 @@ export default defineComponent(() => {
     const pct = duration.value > 0 ? (state.currentTime / duration.value) * 100 : 0
 
     return (
-      <div
-        class={[style.shell, showPlaylist.value && style.shellExpanded].filter(Boolean).join(' ')}
-      >
-        <div class={style.banner}>
-          <PlayerArtwork />
-          <div class={style.overlay}>
-            <PlayerInfo title={currentTitle.value} />
-            <div ref={progRef} class={style.progTrack} onMousedown={handleSeekStart}>
-              <div class={style.progFill} style={{ width: `${pct}%` }} />
-              <div class={style.progThumb} style={{ left: `${pct}%` }} />
+      <>
+        <div
+          class={[style.shell, showPlaylist.value && style.shellExpanded].filter(Boolean).join(' ')}
+        >
+          <div class={style.banner}>
+            <PlayerArtwork />
+            <div class={style.overlay}>
+              <PlayerInfo title={currentTitle.value} />
+              <div ref={progRef} class={style.progTrack} onMousedown={handleSeekStart}>
+                <div class={style.progFill} style={{ width: `${pct}%` }} />
+                <div class={style.progThumb} style={{ left: `${pct}%` }} />
+              </div>
+              <div class={style.midRow}>
+                <PlayerControls
+                  showPlaylist={showPlaylist.value}
+                  onTogglePlaylist={togglePlaylist}
+                  onOpenDialog={() => {
+                    showDialog.value = true
+                  }}
+                />
+                <PlayerProgress />
+              </div>
             </div>
-            <div class={style.midRow}>
-              <PlayerControls showPlaylist={showPlaylist.value} onTogglePlaylist={togglePlaylist} />
-              <PlayerProgress />
-            </div>
+          </div>
+
+          <div
+            class={[style.playlistWrap, showPlaylist.value && style.playlistOpen]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <Playlist />
           </div>
         </div>
 
-        <div
-          class={[style.playlistWrap, showPlaylist.value && style.playlistOpen]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <Playlist />
-        </div>
-      </div>
+        {showDialog.value && (
+          <FavDialog
+            onClose={() => {
+              showDialog.value = false
+            }}
+          />
+        )}
+      </>
     )
   }
 })

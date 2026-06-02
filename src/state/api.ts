@@ -163,6 +163,53 @@ export async function getVideoInfo(bvid: string): Promise<VideoInfo> {
   }
 }
 
+export async function getCurrentUserMid(): Promise<number> {
+  const resp = await fetch('https://api.bilibili.com/x/web-interface/nav', {
+    credentials: 'include',
+  })
+  const data = await resp.json()
+  return data.data.mid
+}
+
+export interface FavFolder {
+  id: number
+  title: string
+  cover: string
+  mediaCount: number
+  upperName?: string
+}
+
+export async function getCreatedFavFolders(upMid: number): Promise<FavFolder[]> {
+  const resp = await fetch(
+    `https://api.bilibili.com/x/v3/fav/folder/created/list-all?up_mid=${upMid}`,
+    { credentials: 'include' },
+  )
+  const data = await resp.json()
+  if (!data.data?.list) return []
+  return data.data.list.map((f: any) => ({
+    id: f.id,
+    title: f.title,
+    cover: '',
+    mediaCount: f.media_count,
+  }))
+}
+
+export async function getCollectedFavFolders(upMid: number): Promise<FavFolder[]> {
+  const resp = await fetch(
+    `https://api.bilibili.com/x/v3/fav/folder/collected/list?up_mid=${upMid}&ps=50&pn=1`,
+    { credentials: 'include' },
+  )
+  const data = await resp.json()
+  if (!data.data?.list) return []
+  return data.data.list.map((f: any) => ({
+    id: f.id,
+    title: f.title,
+    cover: f.cover ?? '',
+    mediaCount: f.media_count,
+    upperName: f.upper?.name,
+  }))
+}
+
 export async function getPlayUrl(bvid: string, cid: number): Promise<string> {
   const params = await encryptWbi({
     bvid,

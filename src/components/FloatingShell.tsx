@@ -1,4 +1,4 @@
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted, Teleport } from 'vue'
 
 import { state, currentTitle, duration, seek, previewSeek } from '../stores/index.ts'
 import FavDialog from './FavDialog.tsx'
@@ -93,14 +93,16 @@ export default defineComponent(() => {
         </div>
 
         {showDialog.value && (
-          <FavDialog
-            onClose={() => {
-              showDialog.value = false
-            }}
-            onPlaylistUpdated={() => {
-              showPlaylist.value = true
-            }}
-          />
+          <Teleport to='body'>
+            <FavDialog
+              onClose={() => {
+                showDialog.value = false
+              }}
+              onPlaylistUpdated={() => {
+                showPlaylist.value = true
+              }}
+            />
+          </Teleport>
         )}
       </>
     )

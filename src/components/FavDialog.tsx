@@ -8,8 +8,9 @@ import {
   getCreatedFavFolders,
   getCollectedFavFolders,
   getFavResources,
+  getSeasonResources,
 } from '../api/index.ts'
-import type { FavFolder } from '../api/index.ts'
+import type { FavFolder, FavResource } from '../api/index.ts'
 import { state } from '../stores/index.ts'
 import type { Song } from '../stores/types.ts'
 
@@ -45,7 +46,17 @@ export default defineComponent(
     )
 
     async function handleFolderClick(folder: FavFolder) {
-      const resources = await getFavResources(folder.id)
+      let resources: FavResource[]
+      try {
+        if (folder.type === 21 && folder.ownerMid) {
+          resources = await getSeasonResources(folder.id, folder.ownerMid)
+        } else {
+          resources = await getFavResources(folder.id)
+        }
+      } catch (e) {
+        console.error('获取内容失败:', e)
+        return
+      }
       if (resources.length === 0) return
 
       const songs: Song[] = resources.map((r) => {

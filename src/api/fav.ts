@@ -6,6 +6,8 @@ export interface FavFolder {
   cover: string
   mediaCount: number
   upperName?: string
+  type?: number
+  ownerMid?: number
 }
 
 export async function getCreatedFavFolders(upMid: number): Promise<FavFolder[]> {
@@ -20,6 +22,8 @@ export async function getCreatedFavFolders(upMid: number): Promise<FavFolder[]> 
     title: f.title,
     cover: '',
     mediaCount: f.media_count,
+    type: f.type,
+    ownerMid: f.mid,
   }))
 }
 
@@ -34,7 +38,7 @@ export interface FavResource {
 export async function getFavResources(mediaId: number): Promise<FavResource[]> {
   const data: any = await biliApi
     .get('https://api.bilibili.com/x/v3/fav/resource/list', {
-      searchParams: { media_id: mediaId, ps: 20, pn: 1, platform: 'web' },
+      searchParams: { media_id: mediaId, ps: 20, pn: 1 },
     })
     .json()
   if (!data.data?.medias) return []
@@ -47,6 +51,29 @@ export async function getFavResources(mediaId: number): Promise<FavResource[]> {
       pageCount: m.page ?? 1,
       upperName: m.upper?.name ?? '',
     }))
+}
+
+export async function getSeasonResources(seasonId: number, mid: number): Promise<FavResource[]> {
+  const data: any = await biliApi
+    .get('https://api.bilibili.com/x/polymer/web-space/seasons_archives_list', {
+      searchParams: {
+        mid,
+        season_id: seasonId,
+        sort_reverse: false,
+        page_size: 30,
+        page_num: 1,
+        web_location: '333.1387',
+      },
+    })
+    .json()
+  if (!data.data?.archives) return []
+  return data.data.archives.map((a: any) => ({
+    bvid: a.bvid,
+    title: a.title,
+    duration: a.duration,
+    pageCount: 1,
+    upperName: '',
+  }))
 }
 
 export async function getCollectedFavFolders(upMid: number): Promise<FavFolder[]> {
@@ -65,5 +92,7 @@ export async function getCollectedFavFolders(upMid: number): Promise<FavFolder[]
     cover: f.cover ?? '',
     mediaCount: f.media_count,
     upperName: f.upper?.name,
+    type: f.type,
+    ownerMid: f.mid,
   }))
 }

@@ -73,6 +73,22 @@
   position: static;
 }
 
+/* 加载中：慢速同步脉冲 */
+.barsLoading span {
+  animation: barPulse 0.8s ease-in-out infinite alternate;
+  animation-delay: 0s;
+}
+
+@keyframes barPulse {
+  0%,
+  100% {
+    transform: scaleY(0.15);
+  }
+  50% {
+    transform: scaleY(0.6);
+  }
+}
+
 @keyframes barBounce {
   0% {
     transform: scaleY(0.15);
@@ -97,10 +113,6 @@
   &:hover {
     background: rgba(0, 0, 0, 0.04);
   }
-}
-
-.parentPlaying {
-  background: rgba(0, 0, 0, 0.05);
 }
 
 .parentArrow {
@@ -130,10 +142,6 @@
   text-overflow: ellipsis;
   flex-shrink: 1;
   min-width: 0;
-}
-
-.parentTitlePlaying {
-  color: #000;
 }
 
 .parentMeta {

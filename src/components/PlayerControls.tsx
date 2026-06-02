@@ -14,7 +14,7 @@ export default defineComponent(
     return () => (
       <div class={style.controls}>
         <button class={style.btn} aria-label='上一首' onClick={prev}>
-          <IconPlayerSkipBack size={16} />
+          <IconPlayerSkipBack size={14} />
         </button>
 
         <button
@@ -22,11 +22,17 @@ export default defineComponent(
           aria-label={state.playing ? '暂停' : '播放'}
           onClick={togglePlay}
         >
-          {state.playing ? <IconPlayerPause size={18} /> : <IconPlayerPlay size={20} />}
+          {state.loading ? (
+            <span class={style.loadingDot} />
+          ) : state.playing ? (
+            <IconPlayerPause size={15} />
+          ) : (
+            <IconPlayerPlay size={16} />
+          )}
         </button>
 
         <button class={style.btn} aria-label='下一首' onClick={next}>
-          <IconPlayerSkipForward size={16} />
+          <IconPlayerSkipForward size={14} />
         </button>
 
         <button
@@ -34,7 +40,7 @@ export default defineComponent(
           aria-label='播放列表'
           onClick={() => props.onTogglePlaylist?.()}
         >
-          <IconPlaylist size={16} />
+          <IconPlaylist size={14} />
         </button>
       </div>
     )

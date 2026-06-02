@@ -10,7 +10,7 @@ export default defineComponent(() => {
       {currentSong.value.pic ? (
         <>
           <img
-            class={[style.coverImg, state.playing && style.coverImgPlaying]
+            class={[style.coverImg, state.playing && !state.loading && style.coverImgPlaying]
               .filter(Boolean)
               .join(' ')}
             src={currentSong.value.pic}

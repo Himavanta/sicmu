@@ -38,24 +38,12 @@ export default defineComponent(() => {
               // ── 多P：父级文件夹 ──
 
               rows.push(
-                <div
-                  class={[style.parent, isSongPlaying && style.parentPlaying]
-                    .filter(Boolean)
-                    .join(' ')}
-                  key={`p-${song.id}`}
-                  onClick={() => toggleExpand(si)}
-                >
+                <div class={style.parent} key={`p-${song.id}`} onClick={() => toggleExpand(si)}>
                   <div class={style.parentArrow}>
                     {isExpanded ? <IconChevronDown size={14} /> : <IconChevronRight size={14} />}
                   </div>
                   <div class={style.parentInfo}>
-                    <span
-                      class={[style.parentTitle, isSongPlaying && style.parentTitlePlaying]
-                        .filter(Boolean)
-                        .join(' ')}
-                    >
-                      {song.title}
-                    </span>
+                    <span class={style.parentTitle}>{song.title}</span>
                     <span class={style.parentMeta}>{song.pages.length} 首</span>
                   </div>
                   <span class={style.parentDuration}>{formatDuration(song.duration)}</span>
@@ -78,7 +66,11 @@ export default defineComponent(() => {
                     >
                       <div class={style.childIndex}>
                         <span
-                          class={[style.playingBars, isPagePlaying && style.playingBarsActive]
+                          class={[
+                            style.playingBars,
+                            isPagePlaying && style.playingBarsActive,
+                            isPagePlaying && state.loading && style.barsLoading,
+                          ]
                             .filter(Boolean)
                             .join(' ')}
                         >
@@ -113,7 +105,11 @@ export default defineComponent(() => {
                 >
                   <div class={style.singleIndex}>
                     <span
-                      class={[style.playingBars, isPlaying && style.playingBarsActive]
+                      class={[
+                        style.playingBars,
+                        isPlaying && style.playingBarsActive,
+                        isPlaying && state.loading && style.barsLoading,
+                      ]
                         .filter(Boolean)
                         .join(' ')}
                     >

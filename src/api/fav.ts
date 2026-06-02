@@ -27,6 +27,7 @@ export interface FavResource {
   bvid: string
   title: string
   duration: number
+  pageCount: number
   upperName: string
 }
 
@@ -43,6 +44,7 @@ export async function getFavResources(mediaId: number): Promise<FavResource[]> {
       bvid: m.bvid ?? m.bv_id,
       title: m.title,
       duration: m.duration,
+      pageCount: m.page ?? 1,
       upperName: m.upper?.name ?? '',
     }))
 }

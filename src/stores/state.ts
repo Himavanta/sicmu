@@ -40,6 +40,8 @@ export const duration = computed(() => {
   const song = currentSong.value
   if (!song) return 0
   if (song.pages.length === 0) return 0
+  // 占位分P（未加载）→ 用总时长
+  if (song.pages.length > 1 && song.pages[0]?.cid === 0) return song.duration
   if (song.pages.length > 1) {
     return song.pages[song.currentPageIndex].duration
   }
@@ -63,7 +65,8 @@ export function getFlatPlaylist(): FlatTrack[] {
   const result: FlatTrack[] = []
   for (let si = 0; si < state.playlist.length; si++) {
     const song = state.playlist[si]
-    if (song.pages.length > 1) {
+    const hasRealPages = song.pages.length > 1 && song.pages[0]?.cid > 0
+    if (hasRealPages) {
       for (let pi = 0; pi < song.pages.length; pi++) {
         const page = song.pages[pi]
         result.push({
@@ -92,7 +95,8 @@ export function getCurrentFlatIndex(): number {
   let idx = 0
   for (let si = 0; si < ci; si++) {
     const song = state.playlist[si]
-    idx += Math.max(song.pages.length, 1)
+    const hasRealPages = song.pages.length > 1 && song.pages[0]?.cid > 0
+    idx += hasRealPages ? song.pages.length : 1
   }
   const song = currentSong.value
   if (song) idx += song.currentPageIndex

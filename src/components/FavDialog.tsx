@@ -48,17 +48,27 @@ export default defineComponent(
       const resources = await getFavResources(folder.id)
       if (resources.length === 0) return
 
-      const songs: Song[] = resources.map((r) => ({
-        id: _nextId++,
-        bvid: r.bvid,
-        title: r.title,
-        artist: r.upperName,
-        duration: r.duration,
-        pic: '',
-        cid: 0,
-        pages: [],
-        currentPageIndex: 0,
-      }))
+      const songs: Song[] = resources.map((r) => {
+        const pages =
+          r.pageCount > 1
+            ? Array.from({ length: r.pageCount }, (_, i) => ({
+                cid: 0,
+                title: '加载中…',
+                duration: 0,
+              }))
+            : []
+        return {
+          id: _nextId++,
+          bvid: r.bvid,
+          title: r.title,
+          artist: r.upperName,
+          duration: r.duration,
+          pic: '',
+          cid: 0,
+          pages,
+          currentPageIndex: 0,
+        }
+      })
 
       state.playlist.splice(0, state.playlist.length, ...songs)
       props.onPlaylistUpdated?.()

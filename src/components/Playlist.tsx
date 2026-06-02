@@ -2,6 +2,7 @@ import IconChevronDown from '@tabler/icons-vue/dist/esm/icons/IconChevronDown.mj
 import IconChevronRight from '@tabler/icons-vue/dist/esm/icons/IconChevronRight.mjs'
 import { defineComponent, ref } from 'vue'
 
+import { getVideoInfo } from '../api/index.ts'
 import { state, currentIndex, play, playPage } from '../stores/index.ts'
 
 import style from './Playlist.module.scss'
@@ -14,9 +15,37 @@ function formatDuration(totalSeconds: number): string {
 
 export default defineComponent(() => {
   const expandedMap = ref<Record<number, boolean>>({})
+  const loadingMap = ref<Record<number, boolean>>({})
 
-  function toggleExpand(index: number) {
-    expandedMap.value = { ...expandedMap.value, [index]: !expandedMap.value[index] }
+  async function toggleExpand(index: number) {
+    // 已展开 → 收起
+    if (expandedMap.value[index]) {
+      expandedMap.value = { ...expandedMap.value, [index]: false }
+      return
+    }
+
+    const song = state.playlist[index]
+
+    // 占位分P → 先获取真实数据
+    if (song.pages.length > 1 && song.pages[0]?.cid === 0) {
+      loadingMap.value = { ...loadingMap.value, [index]: true }
+      try {
+        const info = await getVideoInfo(song.bvid)
+        song.title = info.title
+        song.artist = info.artist
+        song.duration = info.duration
+        song.pic = info.pic
+        song.pages = info.pages
+      } catch (e) {
+        console.error('获取视频信息失败:', e)
+        loadingMap.value = { ...loadingMap.value, [index]: false }
+        return
+      }
+      loadingMap.value = { ...loadingMap.value, [index]: false }
+    }
+
+    // 展开
+    expandedMap.value = { ...expandedMap.value, [index]: true }
   }
 
   return () => {
@@ -31,6 +60,7 @@ export default defineComponent(() => {
             const isSongPlaying = si === currentIndex.value
             const multi = song.pages.length > 1
             const isExpanded = expandedMap.value[si]
+            const isLoading = loadingMap.value[si]
 
             const rows: any[] = []
 
@@ -38,9 +68,19 @@ export default defineComponent(() => {
               // ── 多P：父级文件夹 ──
 
               rows.push(
-                <div class={style.parent} key={`p-${song.id}`} onClick={() => toggleExpand(si)}>
+                <div
+                  class={style.parent}
+                  key={`p-${song.id}`}
+                  onClick={() => void toggleExpand(si)}
+                >
                   <div class={style.parentArrow}>
-                    {isExpanded ? <IconChevronDown size={14} /> : <IconChevronRight size={14} />}
+                    {isLoading ? (
+                      <span class={style.arrowLoading} />
+                    ) : isExpanded ? (
+                      <IconChevronDown size={14} />
+                    ) : (
+                      <IconChevronRight size={14} />
+                    )}
                   </div>
                   <div class={style.parentInfo}>
                     <span class={style.parentTitle}>{song.title}</span>

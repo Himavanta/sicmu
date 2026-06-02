@@ -54,8 +54,8 @@ export async function playPage(index: number, pageIndex: number) {
   const song = state.playlist[index]
   if (!song) return
 
-  // 首次播放：获取元数据
-  if (song.pages.length === 0) {
+  // 首次播放或占位分P：获取元数据
+  if (song.pages.length === 0 || song.pages[0]?.cid === 0) {
     state.currentId = song.id
     state.currentTime = 0
     state.loading = true

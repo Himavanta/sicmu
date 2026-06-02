@@ -10,15 +10,6 @@ export {
   formatTime,
   getFlatPlaylist,
   getCurrentFlatIndex,
-} from './store.ts'
-
-export {
-  getVideoInfo,
-  getPlayUrl,
-  getCurrentUserMid,
-  getCreatedFavFolders,
-  getCollectedFavFolders,
-} from './api.ts'
-export type { FavFolder } from './api.ts'
+} from './state.ts'
 
 export { play, playPage, togglePlay, next, prev, seek, previewSeek, getAudio } from './player.ts'

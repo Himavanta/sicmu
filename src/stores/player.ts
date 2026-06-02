@@ -1,5 +1,5 @@
-import { getVideoInfo, getPlayUrl } from './api.ts'
-import { state, currentIndex, currentSong, getFlatPlaylist, getCurrentFlatIndex } from './store.ts'
+import { getVideoInfo, getPlayUrl } from '../api/index.ts'
+import { state, currentIndex, currentSong, getFlatPlaylist, getCurrentFlatIndex } from './state.ts'
 
 /* ══════════════════════════════════════════
    音频管理
@@ -26,7 +26,6 @@ function ensureAudio(): HTMLAudioElement {
         const next = flat[cur + 1]
         void playPage(next.songIndex, next.pageIndex)
       }
-      // 播完整个列表后停止
     })
     audio.addEventListener('waiting', () => {
       state.loading = true

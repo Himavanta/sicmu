@@ -6,7 +6,7 @@ import IconPlayerSkipForward from '@tabler/icons-vue/dist/esm/icons/IconPlayerSk
 import IconPlaylist from '@tabler/icons-vue/dist/esm/icons/IconPlaylist.mjs'
 import { defineComponent, type PropType } from 'vue'
 
-import { state, togglePlay, prev, next } from '../state/index.ts'
+import { state, togglePlay, prev, next } from '../stores/index.ts'
 
 import style from './PlayerControls.module.scss'
 

@@ -1,4 +1,4 @@
-import type { VideoInfo } from './types.ts'
+import ky from 'ky'
 
 /* ══════════════════════════════════════════
    MD5（轻量实现，用于 Wbi 签名）
@@ -114,18 +114,18 @@ function getMixinKey(keys: string): string {
 }
 
 async function getWbiKeys(): Promise<{ imgKey: string; subKey: string }> {
-  const resp = await fetch('https://api.bilibili.com/x/web-interface/nav', {
-    credentials: 'include',
-  })
-  const data = await resp.json()
+  const data: any = await ky
+    .get('https://api.bilibili.com/x/web-interface/nav', { credentials: 'include' })
+    .json()
   const imgUrl: string = data.data.wbi_img.img_url
   const subUrl: string = data.data.wbi_img.sub_url
-  const imgKey = imgUrl.split('/').pop()!.split('.')[0]
-  const subKey = subUrl.split('/').pop()!.split('.')[0]
-  return { imgKey, subKey }
+  return {
+    imgKey: imgUrl.split('/').pop()!.split('.')[0],
+    subKey: subUrl.split('/').pop()!.split('.')[0],
+  }
 }
 
-async function encryptWbi(
+export async function encryptWbi(
   params: Record<string, string | number>,
 ): Promise<Record<string, string | number>> {
   const { imgKey, subKey } = await getWbiKeys()
@@ -135,94 +135,6 @@ async function encryptWbi(
   const query = sorted
     .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(String(params[k]))}`)
     .join('&')
-  const signStr = query + mixinKey
-  const wRid = md5(signStr)
+  const wRid = md5(query + mixinKey)
   return { ...params, wts, w_rid: wRid }
-}
-
-/* ══════════════════════════════════════════
-   公开 API：获取视频信息 & 播放地址
-   ══════════════════════════════════════════ */
-
-export async function getVideoInfo(bvid: string): Promise<VideoInfo> {
-  const resp = await fetch(`https://api.bilibili.com/x/web-interface/view?bvid=${bvid}`, {
-    credentials: 'include',
-  })
-  const data = await resp.json()
-  return {
-    cid: data.data.cid,
-    title: data.data.title,
-    artist: data.data.owner.name,
-    duration: data.data.duration,
-    pic: data.data.pic,
-    pages: (data.data.pages ?? []).map((p: any) => ({
-      cid: p.cid,
-      title: p.part,
-      duration: p.duration,
-    })),
-  }
-}
-
-export async function getCurrentUserMid(): Promise<number> {
-  const resp = await fetch('https://api.bilibili.com/x/web-interface/nav', {
-    credentials: 'include',
-  })
-  const data = await resp.json()
-  return data.data.mid
-}
-
-export interface FavFolder {
-  id: number
-  title: string
-  cover: string
-  mediaCount: number
-  upperName?: string
-}
-
-export async function getCreatedFavFolders(upMid: number): Promise<FavFolder[]> {
-  const resp = await fetch(
-    `https://api.bilibili.com/x/v3/fav/folder/created/list-all?up_mid=${upMid}`,
-    { credentials: 'include' },
-  )
-  const data = await resp.json()
-  if (!data.data?.list) return []
-  return data.data.list.map((f: any) => ({
-    id: f.id,
-    title: f.title,
-    cover: '',
-    mediaCount: f.media_count,
-  }))
-}
-
-export async function getCollectedFavFolders(upMid: number): Promise<FavFolder[]> {
-  const resp = await fetch(
-    `https://api.bilibili.com/x/v3/fav/folder/collected/list?up_mid=${upMid}&ps=50&pn=1`,
-    { credentials: 'include' },
-  )
-  const data = await resp.json()
-  if (!data.data?.list) return []
-  return data.data.list.map((f: any) => ({
-    id: f.id,
-    title: f.title,
-    cover: f.cover ?? '',
-    mediaCount: f.media_count,
-    upperName: f.upper?.name,
-  }))
-}
-
-export async function getPlayUrl(bvid: string, cid: number): Promise<string> {
-  const params = await encryptWbi({
-    bvid,
-    cid,
-    fnval: 1,
-    qn: 16,
-  })
-  const qs = Object.entries(params)
-    .map(([k, v]) => `${k}=${v}`)
-    .join('&')
-  const resp = await fetch(`https://api.bilibili.com/x/player/wbi/playurl?${qs}`, {
-    credentials: 'include',
-  })
-  const data = await resp.json()
-  return data.data.durl[0].url
 }

@@ -2,7 +2,7 @@ import IconChevronDown from '@tabler/icons-vue/dist/esm/icons/IconChevronDown.mj
 import IconChevronRight from '@tabler/icons-vue/dist/esm/icons/IconChevronRight.mjs'
 import { defineComponent, ref } from 'vue'
 
-import { state, currentIndex, play, playPage } from '../state/index.ts'
+import { state, currentIndex, play, playPage } from '../stores/index.ts'
 
 import style from './Playlist.module.scss'
 

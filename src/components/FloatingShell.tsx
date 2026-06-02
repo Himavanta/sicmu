@@ -1,6 +1,6 @@
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 
-import { state, currentTitle, duration, seek, previewSeek } from '../state/index.ts'
+import { state, currentTitle, duration, seek, previewSeek } from '../stores/index.ts'
 import FavDialog from './FavDialog.tsx'
 import PlayerArtwork from './PlayerArtwork.tsx'
 import PlayerControls from './PlayerControls.tsx'

@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 
-import { state, duration, formatTime } from '../state/index.ts'
+import { state, duration, formatTime } from '../stores/index.ts'
 
 import style from './PlayerProgress.module.scss'
 

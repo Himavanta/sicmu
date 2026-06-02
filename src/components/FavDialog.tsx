@@ -1,29 +1,35 @@
 import IconX from '@tabler/icons-vue/dist/esm/icons/IconX.mjs'
-import { defineComponent, type PropType, ref, onMounted } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import { defineComponent, type PropType, computed } from 'vue'
 
-import type { FavFolder } from '../state/api.ts'
-import { getCurrentUserMid, getCreatedFavFolders, getCollectedFavFolders } from '../state/index.ts'
+import { getCurrentUserMid, getCreatedFavFolders, getCollectedFavFolders } from '../api/index.ts'
 
 import style from './FavDialog.module.scss'
 
 export default defineComponent(
   (props: { onClose: () => void }) => {
-    const created = ref<FavFolder[]>([])
-    const collected = ref<FavFolder[]>([])
-    const loading = ref(true)
-
-    onMounted(async () => {
-      try {
-        const mid = await getCurrentUserMid()
-        const [c, col] = await Promise.all([getCreatedFavFolders(mid), getCollectedFavFolders(mid)])
-        created.value = c
-        collected.value = col
-      } catch (e) {
-        console.error('获取收藏夹失败:', e)
-      } finally {
-        loading.value = false
-      }
+    const midQuery = useQuery({
+      queryKey: ['user-mid'],
+      queryFn: getCurrentUserMid,
+      staleTime: 5 * 60 * 1000,
     })
+
+    const createdQuery = useQuery({
+      queryKey: ['fav-folders', 'created', midQuery.data.value],
+      queryFn: () => getCreatedFavFolders(midQuery.data.value!),
+      enabled: computed(() => !!midQuery.data.value),
+    })
+
+    const collectedQuery = useQuery({
+      queryKey: ['fav-folders', 'collected', midQuery.data.value],
+      queryFn: () => getCollectedFavFolders(midQuery.data.value!),
+      enabled: computed(() => !!midQuery.data.value),
+    })
+
+    const loading = computed(
+      () =>
+        midQuery.isLoading.value || createdQuery.isLoading.value || collectedQuery.isLoading.value,
+    )
 
     return () => (
       <div class={style.backdrop} onClick={() => props.onClose()}>
@@ -40,13 +46,12 @@ export default defineComponent(
               <div class={style.loading}>加载中…</div>
             ) : (
               <>
-                {/* ── 我的收藏夹 ── */}
                 <div class={style.section}>
                   <div class={style.sectionTitle}>我的收藏夹</div>
-                  {created.value.length === 0 ? (
+                  {createdQuery.data.value?.length === 0 ? (
                     <div class={style.empty}>暂无收藏夹</div>
                   ) : (
-                    created.value.map((f) => (
+                    createdQuery.data.value?.map((f) => (
                       <div class={style.folder} key={f.id}>
                         <div class={style.folderCover} />
                         <div class={style.folderInfo}>
@@ -58,13 +63,12 @@ export default defineComponent(
                   )}
                 </div>
 
-                {/* ── 订阅的收藏夹 ── */}
                 <div class={style.section}>
                   <div class={style.sectionTitle}>订阅的收藏夹</div>
-                  {collected.value.length === 0 ? (
+                  {collectedQuery.data.value?.length === 0 ? (
                     <div class={style.empty}>暂无订阅</div>
                   ) : (
-                    collected.value.map((f) => (
+                    collectedQuery.data.value?.map((f) => (
                       <div class={style.folder} key={f.id}>
                         {f.cover ? (
                           <img

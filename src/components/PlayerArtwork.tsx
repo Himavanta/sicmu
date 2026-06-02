@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 
-import { state, currentSong } from '../state/index.ts'
+import { state, currentSong } from '../stores/index.ts'
 
 import style from './PlayerArtwork.module.scss'
 

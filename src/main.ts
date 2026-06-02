@@ -1,5 +1,8 @@
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import { createApp } from 'vue'
 
-import app from './app.tsx'
+import App from './app.tsx'
 
-createApp(app).mount('#app')
+const app = createApp(App)
+app.use(VueQueryPlugin)
+app.mount('#app')

@@ -1,9 +1,13 @@
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import { createApp } from 'vue'
 
-import app from './app.tsx'
+import App from './app.tsx'
+
+const app = createApp(App)
+app.use(VueQueryPlugin)
 
 const box = document.createElement('div')
-createApp(app).mount(box)
+app.mount(box)
 
 const TARGET_SELECTOR = '.bili-dyn-home--member>aside.right>section.sticky'
 

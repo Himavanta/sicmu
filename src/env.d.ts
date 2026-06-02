@@ -1,3 +1,8 @@
+declare module '*.module.scss' {
+  const classes: { readonly [key: string]: string }
+  export default classes
+}
+
 declare module '@tabler/icons-vue/dist/esm/icons/*.mjs' {
   import type { FunctionalComponent } from 'vue'
 

@@ -24,7 +24,7 @@ export interface Song {
 
 export interface PlayerState {
   playlist: Song[]
-  currentIndex: number
+  currentId: number
   playing: boolean
   currentTime: number
   loading: boolean

@@ -2,6 +2,7 @@ export type { Page, Song, PlayerState, VideoInfo, FlatTrack } from './types.ts'
 
 export {
   state,
+  currentIndex,
   currentSong,
   currentTitle,
   duration,

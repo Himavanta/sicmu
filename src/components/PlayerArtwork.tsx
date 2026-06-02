@@ -7,7 +7,7 @@ import style from './PlayerArtwork.module.scss'
 export default defineComponent(() => {
   return () => (
     <div class={style.artwork}>
-      {currentSong.value.pic ? (
+      {currentSong.value?.pic ? (
         <>
           <img
             class={[style.coverImg, state.playing && !state.loading && style.coverImgPlaying]

@@ -1,5 +1,5 @@
 import { getVideoInfo, getPlayUrl } from './api.ts'
-import { state, getFlatPlaylist, getCurrentFlatIndex } from './store.ts'
+import { state, currentIndex, currentSong, getFlatPlaylist, getCurrentFlatIndex } from './store.ts'
 
 /* ══════════════════════════════════════════
    音频管理
@@ -57,7 +57,7 @@ export async function playPage(index: number, pageIndex: number) {
 
   // 首次播放：获取元数据
   if (song.pages.length === 0) {
-    state.currentIndex = index
+    state.currentId = song.id
     state.currentTime = 0
     state.loading = true
     try {
@@ -79,7 +79,7 @@ export async function playPage(index: number, pageIndex: number) {
   const page = song.pages[pi]
   song.cid = page.cid
 
-  state.currentIndex = index
+  state.currentId = song.id
   state.currentTime = 0
   state.loading = true
 
@@ -105,7 +105,7 @@ export function togglePlay() {
     void el.play()
     state.playing = true
   } else {
-    void playPage(state.currentIndex, state.playlist[state.currentIndex]?.currentPageIndex ?? 0)
+    void playPage(currentIndex.value, currentSong.value?.currentPageIndex ?? 0)
   }
 }
 

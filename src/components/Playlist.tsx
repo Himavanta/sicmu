@@ -2,7 +2,7 @@ import IconChevronDown from '@tabler/icons-vue/dist/esm/icons/IconChevronDown.mj
 import IconChevronRight from '@tabler/icons-vue/dist/esm/icons/IconChevronRight.mjs'
 import { defineComponent, ref } from 'vue'
 
-import { state, play, playPage } from '../state/index.ts'
+import { state, currentIndex, play, playPage } from '../state/index.ts'
 
 import style from './Playlist.module.scss'
 
@@ -28,7 +28,7 @@ export default defineComponent(() => {
         <div class={style.list}>
           {state.playlist.length === 0 && <div class={style.empty}>暂无内容</div>}
           {state.playlist.map((song, si) => {
-            const isSongPlaying = si === state.currentIndex
+            const isSongPlaying = si === currentIndex.value
             const multi = song.pages.length > 1
             const isExpanded = expandedMap.value[si]
 

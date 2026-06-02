@@ -8,24 +8,24 @@ import style from './Row.module.scss'
 
 export type RowMode = 'folder' | 'leaf'
 
+interface TrackRowProps {
+  mode: RowMode
+  title: string
+  duration: string
+  index: number
+  active: boolean
+  pageCount?: number
+  expanded?: boolean
+  loading?: boolean
+  playing?: boolean
+  isLoading?: boolean
+  artist?: string
+  indent?: boolean
+  onClick: () => void
+}
+
 export default defineComponent(
-  (props: {
-    mode: RowMode
-    title: string
-    duration: string
-    index: number
-    active: boolean
-    /** folder mode */
-    pageCount?: number
-    expanded?: boolean
-    loading?: boolean
-    /** leaf mode */
-    playing?: boolean
-    isLoading?: boolean
-    /** 行为 */
-    indent?: boolean
-    onClick: () => void
-  }) => {
+  (props: TrackRowProps) => {
     return () => {
       const isFolder = props.mode === 'folder'
 
@@ -34,7 +34,7 @@ export default defineComponent(
           class={[style.row, props.active && style.rowActive, props.indent && style.rowIndent]
             .filter(Boolean)
             .join(' ')}
-          title={props.title}
+          title={props.artist ? `${props.title} — ${props.artist}` : props.title}
           onClick={() => props.onClick()}
         >
           {/* 索引列 */}
@@ -84,6 +84,7 @@ export default defineComponent(
       loading: { type: Boolean },
       playing: { type: Boolean },
       isLoading: { type: Boolean },
+      artist: { type: String },
       indent: { type: Boolean, default: false },
       onClick: { type: Function as PropType<() => void>, required: true },
     },

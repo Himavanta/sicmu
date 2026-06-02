@@ -63,6 +63,7 @@ export default defineComponent(() => {
                 <TrackRow
                   mode='folder'
                   title={song.title}
+                  artist={song.artist}
                   duration={fmt(song.duration)}
                   index={topNum}
                   active={isSongPlaying}
@@ -82,6 +83,7 @@ export default defineComponent(() => {
                     <TrackRow
                       mode='leaf'
                       title={page.title}
+                      artist={song.artist}
                       duration={fmt(page.duration)}
                       index={pi + 1}
                       active={isPagePlaying}
@@ -100,6 +102,7 @@ export default defineComponent(() => {
                 <TrackRow
                   mode='leaf'
                   title={song.title}
+                  artist={song.artist}
                   duration={fmt(song.duration)}
                   index={topNum}
                   active={isPlaying}

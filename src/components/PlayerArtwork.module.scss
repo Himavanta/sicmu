@@ -9,9 +9,19 @@
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 20%, #ff6b9d 0%, transparent 60%),
-    radial-gradient(ellipse 70% 55% at 80% 15%, #a855f7 0%, transparent 55%),
-    radial-gradient(ellipse 90% 70% at 45% 90%, #22d3ee 0%, #312e81 70%);
+    radial-gradient(ellipse 90% 65% at 15% 20%, #1a1a2e 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 85% 15%, #16213e 0%, transparent 55%),
+    radial-gradient(ellipse 100% 80% at 50% 100%, #0f3460 0%, #0a0a1a 70%);
+  animation: gradientShift 8s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 .coverImg {

@@ -23,6 +23,30 @@ export async function getCreatedFavFolders(upMid: number): Promise<FavFolder[]> 
   }))
 }
 
+export interface FavResource {
+  bvid: string
+  title: string
+  duration: number
+  upperName: string
+}
+
+export async function getFavResources(mediaId: number): Promise<FavResource[]> {
+  const data: any = await biliApi
+    .get('https://api.bilibili.com/x/v3/fav/resource/list', {
+      searchParams: { media_id: mediaId, ps: 20, pn: 1, platform: 'web' },
+    })
+    .json()
+  if (!data.data?.medias) return []
+  return data.data.medias
+    .filter((m: any) => m.type === 2)
+    .map((m: any) => ({
+      bvid: m.bvid ?? m.bv_id,
+      title: m.title,
+      duration: m.duration,
+      upperName: m.upper?.name ?? '',
+    }))
+}
+
 export async function getCollectedFavFolders(upMid: number): Promise<FavFolder[]> {
   const data: any = await biliApi
     .get('https://api.bilibili.com/x/v3/fav/folder/collected/list', {

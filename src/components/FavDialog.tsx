@@ -1,13 +1,24 @@
+import IconFolder from '@tabler/icons-vue/dist/esm/icons/IconFolder.mjs'
 import IconX from '@tabler/icons-vue/dist/esm/icons/IconX.mjs'
 import { useQuery } from '@tanstack/vue-query'
 import { defineComponent, type PropType, computed } from 'vue'
 
-import { getCurrentUserMid, getCreatedFavFolders, getCollectedFavFolders } from '../api/index.ts'
+import {
+  getCurrentUserMid,
+  getCreatedFavFolders,
+  getCollectedFavFolders,
+  getFavResources,
+} from '../api/index.ts'
+import type { FavFolder } from '../api/index.ts'
+import { state } from '../stores/index.ts'
+import type { Song } from '../stores/types.ts'
 
 import style from './FavDialog.module.scss'
 
+let _nextId = Date.now()
+
 export default defineComponent(
-  (props: { onClose: () => void }) => {
+  (props: { onClose: () => void; onPlaylistUpdated?: () => void }) => {
     const midQuery = useQuery({
       queryKey: ['user-mid'],
       queryFn: getCurrentUserMid,
@@ -33,6 +44,27 @@ export default defineComponent(
         midQuery.isLoading.value || createdQuery.isLoading.value || collectedQuery.isLoading.value,
     )
 
+    async function handleFolderClick(folder: FavFolder) {
+      const resources = await getFavResources(folder.id)
+      if (resources.length === 0) return
+
+      const songs: Song[] = resources.map((r) => ({
+        id: _nextId++,
+        bvid: r.bvid,
+        title: r.title,
+        artist: r.upperName,
+        duration: r.duration,
+        pic: '',
+        cid: 0,
+        pages: [],
+        currentPageIndex: 0,
+      }))
+
+      state.playlist.splice(0, state.playlist.length, ...songs)
+      props.onPlaylistUpdated?.()
+      props.onClose()
+    }
+
     return () => (
       <div class={style.backdrop} onClick={() => props.onClose()}>
         <div class={style.dialog} onClick={(e: MouseEvent) => e.stopPropagation()}>
@@ -57,8 +89,10 @@ export default defineComponent(
                     <div class={style.empty}>暂无收藏夹</div>
                   ) : (
                     createdQuery.data.value?.map((f) => (
-                      <div class={style.folder} key={f.id}>
-                        <div class={style.folderCover} />
+                      <div class={style.folder} key={f.id} onClick={() => handleFolderClick(f)}>
+                        <div class={style.folderIcon}>
+                          <IconFolder size={18} />
+                        </div>
                         <div class={style.folderInfo}>
                           <div class={style.folderTitle}>{f.title}</div>
                           <div class={style.folderMeta}>{f.mediaCount} 项</div>
@@ -74,7 +108,7 @@ export default defineComponent(
                     <div class={style.empty}>暂无订阅</div>
                   ) : (
                     collectedQuery.data.value?.map((f) => (
-                      <div class={style.folder} key={f.id}>
+                      <div class={style.folder} key={f.id} onClick={() => handleFolderClick(f)}>
                         {f.cover ? (
                           <img
                             class={style.folderCover}
@@ -83,7 +117,9 @@ export default defineComponent(
                             referrerpolicy='origin'
                           />
                         ) : (
-                          <div class={style.folderCover} />
+                          <div class={style.folderIcon}>
+                            <IconFolder size={18} />
+                          </div>
                         )}
                         <div class={style.folderInfo}>
                           <div class={style.folderTitle}>{f.title}</div>
@@ -105,6 +141,7 @@ export default defineComponent(
   {
     props: {
       onClose: { type: Function as PropType<() => void>, required: true },
+      onPlaylistUpdated: { type: Function as PropType<() => void> },
     },
   },
 )

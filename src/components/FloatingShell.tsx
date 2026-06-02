@@ -97,6 +97,9 @@ export default defineComponent(() => {
             onClose={() => {
               showDialog.value = false
             }}
+            onPlaylistUpdated={() => {
+              showPlaylist.value = true
+            }}
           />
         )}
       </>

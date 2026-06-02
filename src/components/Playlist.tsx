@@ -1,3 +1,4 @@
+import { IconPlayerPlay, IconChevronDown, IconChevronRight } from '@tabler/icons-vue'
 import { defineComponent, ref } from 'vue'
 
 import { state, play, playPage } from '../state/index.ts'
@@ -43,15 +44,7 @@ export default defineComponent(() => {
                   onClick={() => toggleExpand(si)}
                 >
                   <div class={style.parentArrow}>
-                    {isExpanded ? (
-                      <svg viewBox='0 0 24 24' width='10' height='10' fill='currentColor'>
-                        <path d='M7 10l5 5 5-5z' />
-                      </svg>
-                    ) : (
-                      <svg viewBox='0 0 24 24' width='10' height='10' fill='currentColor'>
-                        <path d='M10 7l5 5-5 5z' />
-                      </svg>
-                    )}
+                    {isExpanded ? <IconChevronDown size={14} /> : <IconChevronRight size={14} />}
                   </div>
                   <div class={style.parentInfo}>
                     <span
@@ -83,9 +76,7 @@ export default defineComponent(() => {
                     >
                       <div class={style.childIndex}>
                         {isPagePlaying ? (
-                          <svg viewBox='0 0 24 24' width='8' height='8' fill='currentColor'>
-                            <path d='M8 5v14l11-7z' />
-                          </svg>
+                          <IconPlayerPlay size={10} />
                         ) : (
                           <span class={style.childNum}>{pi + 1}</span>
                         )}
@@ -115,9 +106,7 @@ export default defineComponent(() => {
                 >
                   <div class={style.singleIndex}>
                     {isPlaying ? (
-                      <svg viewBox='0 0 24 24' width='10' height='10' fill='currentColor'>
-                        <path d='M8 5v14l11-7z' />
-                      </svg>
+                      <IconPlayerPlay size={10} />
                     ) : (
                       <span class={style.singleNum}>{singleNum}</span>
                     )}

@@ -32,10 +32,8 @@
     "prepublishOnly": "vp run build",
     "prepare": "vp config"
   },
-  "dependencies": {
-    "@tabler/icons-vue": "^3.44.0"
-  },
   "devDependencies": {
+    "@tabler/icons-vue": "^3.44.0",
     "@tsdown/css": "^0.22.1",
     "@types/node": "^25.6.2",
     "@vueuse/core": "^14.3.0",

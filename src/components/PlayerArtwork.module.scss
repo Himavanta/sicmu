@@ -12,55 +12,47 @@
     radial-gradient(ellipse 90% 65% at 15% 20%, #1a1a2e 0%, transparent 60%),
     radial-gradient(ellipse 80% 60% at 85% 15%, #16213e 0%, transparent 55%),
     radial-gradient(ellipse 100% 80% at 50% 100%, #0f3460 0%, #0a0a1a 70%);
-  animation: gradientShift 8s ease-in-out infinite alternate;
 }
 
-@keyframes gradientShift {
+.coverWrapPlaying {
+  animation: coverBreathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes coverBreathe {
   0% {
-    background-position: 0% 0%;
+    filter: blur(10px) brightness(2);
+  }
+  50% {
+    filter: blur(2px) brightness(1.2);
   }
   100% {
-    background-position: 100% 100%;
+    filter: blur(10px) brightness(2);
   }
 }
 
 .coverImg {
+  display: block;
+  position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
   filter: blur(8px) brightness(0.65);
-  transform: scale(1.6);
+  object-fit: cover;
+  object-position: center;
 }
 
 .coverImgPlaying {
-  animation: organicDrift 14s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+  animation: coverBreathe 8s ease-in-out infinite alternate;
 }
 
-@keyframes organicDrift {
+@keyframes coverBreathe {
   0% {
-    transform: scale(1.6) translate(0%, 0%);
-    filter: blur(8px) brightness(0.65);
+    filter: blur(12px) brightness(0.65);
   }
-  20% {
-    transform: scale(1.58) translate(-3.5%, 1%);
-    filter: blur(11px) brightness(0.82);
-  }
-  40% {
-    transform: scale(1.64) translate(2.5%, -3%);
-    filter: blur(7px) brightness(0.68);
-  }
-  60% {
-    transform: scale(1.55) translate(-1%, 3.5%);
-    filter: blur(12px) brightness(0.88);
-  }
-  80% {
-    transform: scale(1.62) translate(4.5%, 1.5%);
-    filter: blur(9px) brightness(0.72);
+  50% {
+    filter: blur(12px) brightness(0.85);
   }
   100% {
-    transform: scale(1.58) translate(-2.5%, -1.5%);
-    filter: blur(8px) brightness(0.65);
+    filter: blur(12px) brightness(0.65);
   }
 }
 

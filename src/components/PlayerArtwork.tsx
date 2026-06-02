@@ -10,9 +10,7 @@ export default defineComponent(() => {
       {currentSong.value?.pic ? (
         <>
           <img
-            class={[style.coverImg, state.playing && !state.loading && style.coverImgPlaying]
-              .filter(Boolean)
-              .join(' ')}
+            class={[style.coverImg, state.playing && !state.loading && style.coverWrapPlaying]}
             src={currentSong.value.pic}
             alt={currentSong.value.title}
             referrerpolicy='origin'

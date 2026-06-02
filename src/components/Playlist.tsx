@@ -1,15 +1,14 @@
-import IconChevronDown from '@tabler/icons-vue/dist/esm/icons/IconChevronDown.mjs'
-import IconChevronRight from '@tabler/icons-vue/dist/esm/icons/IconChevronRight.mjs'
 import { defineComponent, ref } from 'vue'
 
 import { getVideoInfo } from '../api/index.ts'
 import { state, currentIndex, play, playPage } from '../stores/index.ts'
+import TrackRow from './TrackRow.tsx'
 
 import style from './Playlist.module.scss'
 
-function formatDuration(totalSeconds: number): string {
-  const m = Math.floor(totalSeconds / 60)
-  const s = totalSeconds % 60
+function fmt(seconds: number): string {
+  const m = Math.floor(seconds / 60)
+  const s = Math.floor(seconds % 60)
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
@@ -17,18 +16,14 @@ export default defineComponent(() => {
   const expandedMap = ref<Record<number, boolean>>({})
   const loadingMap = ref<Record<number, boolean>>({})
 
-  async function toggleExpand(index: number) {
-    // 已展开 → 收起
-    if (expandedMap.value[index]) {
-      expandedMap.value = { ...expandedMap.value, [index]: false }
+  async function toggleExpand(si: number) {
+    if (expandedMap.value[si]) {
+      expandedMap.value = { ...expandedMap.value, [si]: false }
       return
     }
-
-    const song = state.playlist[index]
-
-    // 占位分P → 先获取真实数据
+    const song = state.playlist[si]
     if (song.pages.length > 1 && song.pages[0]?.cid === 0) {
-      loadingMap.value = { ...loadingMap.value, [index]: true }
+      loadingMap.value = { ...loadingMap.value, [si]: true }
       try {
         const info = await getVideoInfo(song.bvid)
         song.title = info.title
@@ -38,18 +33,16 @@ export default defineComponent(() => {
         song.pages = info.pages
       } catch (e) {
         console.error('获取视频信息失败:', e)
-        loadingMap.value = { ...loadingMap.value, [index]: false }
+        loadingMap.value = { ...loadingMap.value, [si]: false }
         return
       }
-      loadingMap.value = { ...loadingMap.value, [index]: false }
+      loadingMap.value = { ...loadingMap.value, [si]: false }
     }
-
-    // 展开
-    expandedMap.value = { ...expandedMap.value, [index]: true }
+    expandedMap.value = { ...expandedMap.value, [si]: true }
   }
 
   return () => {
-    let singleNum = 0
+    let topNum = 0
 
     return (
       <div class={style.playlist}>
@@ -61,113 +54,59 @@ export default defineComponent(() => {
             const multi = song.pages.length > 1
             const isExpanded = expandedMap.value[si]
             const isLoading = loadingMap.value[si]
+            topNum++
 
             const rows: any[] = []
 
             if (multi) {
-              // ── 多P：父级文件夹 ──
-
               rows.push(
-                <div
-                  class={style.parent}
-                  key={`p-${song.id}`}
+                <TrackRow
+                  mode='folder'
+                  title={song.title}
+                  duration={fmt(song.duration)}
+                  index={topNum}
+                  active={isSongPlaying}
+                  pageCount={song.pages.length}
+                  expanded={isExpanded}
+                  loading={isLoading}
                   onClick={() => void toggleExpand(si)}
-                >
-                  <div class={style.parentArrow}>
-                    {isLoading ? (
-                      <span class={style.arrowLoading} />
-                    ) : isExpanded ? (
-                      <IconChevronDown size={14} />
-                    ) : (
-                      <IconChevronRight size={14} />
-                    )}
-                  </div>
-                  <div class={style.parentInfo}>
-                    <span class={style.parentTitle}>{song.title}</span>
-                    <span class={style.parentMeta}>{song.pages.length} 首</span>
-                  </div>
-                  <span class={style.parentDuration}>{formatDuration(song.duration)}</span>
-                </div>,
+                />,
               )
 
-              // ── 多P：分P 子级 ──
               if (isExpanded) {
                 for (let pi = 0; pi < song.pages.length; pi++) {
                   const page = song.pages[pi]
                   const isPagePlaying = isSongPlaying && song.currentPageIndex === pi
 
                   rows.push(
-                    <div
-                      class={[style.child, isPagePlaying && style.childPlaying]
-                        .filter(Boolean)
-                        .join(' ')}
-                      key={`c-${page.cid}`}
+                    <TrackRow
+                      mode='leaf'
+                      title={page.title}
+                      duration={fmt(page.duration)}
+                      index={pi + 1}
+                      active={isPagePlaying}
+                      playing={isPagePlaying}
+                      isLoading={state.loading && isPagePlaying}
+                      indent
                       onClick={() => void playPage(si, pi)}
-                    >
-                      <div class={style.childIndex}>
-                        {isPagePlaying ? (
-                          state.loading ? (
-                            <span class={style.loadingDot} />
-                          ) : (
-                            <span class={[style.playingBars, style.playingBarsActive].join(' ')}>
-                              <span />
-                              <span />
-                              <span />
-                            </span>
-                          )
-                        ) : (
-                          <span class={style.childNum}>{pi + 1}</span>
-                        )}
-                      </div>
-                      <span
-                        class={[style.childTitle, isPagePlaying && style.childTitlePlaying]
-                          .filter(Boolean)
-                          .join(' ')}
-                      >
-                        {page.title}
-                      </span>
-                      <span class={style.childDuration}>{formatDuration(page.duration)}</span>
-                    </div>,
+                    />,
                   )
                 }
               }
             } else {
-              // ── 单P：扁平行 ──
-              singleNum++
               const isPlaying = isSongPlaying && song.currentPageIndex === 0
 
               rows.push(
-                <div
-                  class={[style.single, isPlaying && style.singlePlaying].filter(Boolean).join(' ')}
-                  key={`s-${song.id}`}
+                <TrackRow
+                  mode='leaf'
+                  title={song.title}
+                  duration={fmt(song.duration)}
+                  index={topNum}
+                  active={isPlaying}
+                  playing={isPlaying}
+                  isLoading={state.loading && isPlaying}
                   onClick={() => void play(si)}
-                >
-                  <div class={style.singleIndex}>
-                    {isPlaying ? (
-                      state.loading ? (
-                        <span class={style.loadingDot} />
-                      ) : (
-                        <span class={[style.playingBars, style.playingBarsActive].join(' ')}>
-                          <span />
-                          <span />
-                          <span />
-                        </span>
-                      )
-                    ) : (
-                      <span class={style.singleNum}>{singleNum}</span>
-                    )}
-                  </div>
-                  <div class={style.singleInfo}>
-                    <span
-                      class={[style.singleTitle, isPlaying && style.singleTitlePlaying]
-                        .filter(Boolean)
-                        .join(' ')}
-                    >
-                      {song.title}
-                    </span>
-                  </div>
-                  <span class={style.singleDuration}>{formatDuration(song.duration)}</span>
-                </div>,
+                />,
               )
             }
 

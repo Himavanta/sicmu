@@ -65,20 +65,19 @@ export default defineComponent(() => {
                       onClick={() => void playPage(si, pi)}
                     >
                       <div class={style.childIndex}>
-                        <span
-                          class={[
-                            style.playingBars,
-                            isPagePlaying && style.playingBarsActive,
-                            isPagePlaying && state.loading && style.barsLoading,
-                          ]
-                            .filter(Boolean)
-                            .join(' ')}
-                        >
-                          <span />
-                          <span />
-                          <span />
-                        </span>
-                        {!isPagePlaying && <span class={style.childNum}>{pi + 1}</span>}
+                        {isPagePlaying ? (
+                          state.loading ? (
+                            <span class={style.loadingDot} />
+                          ) : (
+                            <span class={[style.playingBars, style.playingBarsActive].join(' ')}>
+                              <span />
+                              <span />
+                              <span />
+                            </span>
+                          )
+                        ) : (
+                          <span class={style.childNum}>{pi + 1}</span>
+                        )}
                       </div>
                       <span
                         class={[style.childTitle, isPagePlaying && style.childTitlePlaying]
@@ -104,20 +103,19 @@ export default defineComponent(() => {
                   onClick={() => void play(si)}
                 >
                   <div class={style.singleIndex}>
-                    <span
-                      class={[
-                        style.playingBars,
-                        isPlaying && style.playingBarsActive,
-                        isPlaying && state.loading && style.barsLoading,
-                      ]
-                        .filter(Boolean)
-                        .join(' ')}
-                    >
-                      <span />
-                      <span />
-                      <span />
-                    </span>
-                    {!isPlaying && <span class={style.singleNum}>{singleNum}</span>}
+                    {isPlaying ? (
+                      state.loading ? (
+                        <span class={style.loadingDot} />
+                      ) : (
+                        <span class={[style.playingBars, style.playingBarsActive].join(' ')}>
+                          <span />
+                          <span />
+                          <span />
+                        </span>
+                      )
+                    ) : (
+                      <span class={style.singleNum}>{singleNum}</span>
+                    )}
                   </div>
                   <div class={style.singleInfo}>
                     <span

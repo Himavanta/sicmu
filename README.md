@@ -5,9 +5,9 @@
 ## 安装
 
 1. 确保已安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
-2. [点击安装](https://esm.sh/sicmu/dist/data.user.js)
+2. [通过 unpkg 安装](https://unpkg.com/sicmu/dist/data.user.js)（推荐）
 
-> 安装后 Tampermonkey 会自动通过 esm.sh CDN 检查并更新脚本。
+> 安装后 Tampermonkey 会自动通过 unpkg 检查更新。
 
 ### 本地开发
 

@@ -5,9 +5,11 @@ import { defineConfig } from 'vite-plus'
 
 const OUT_DIR = 'dist'
 
+const { version } = JSON.parse(readFileSync(resolve('package.json'), 'utf-8'))
+
 const metainfo = `// ==UserScript==
 // @name         Sicmu
-// @version      0.0.1
+// @version      ${version}
 // @description  油猴脚本
 // @author       you
 // @match        https://t.bilibili.com/*

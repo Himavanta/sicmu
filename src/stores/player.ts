@@ -36,6 +36,7 @@ function ensureAudio(): HTMLAudioElement {
     })
     audio.addEventListener('error', () => {
       state.loading = false
+      state.playing = false
     })
   }
   return audio
@@ -89,16 +90,36 @@ export async function playPage(index: number, pageIndex: number) {
   }
 }
 
-export function togglePlay() {
+export async function togglePlay() {
   const el = ensureAudio()
   if (state.playing) {
     el.pause()
     state.playing = false
   } else if (el.src) {
-    void el.play()
-    state.playing = true
+    state.loading = true
+    try {
+      await el.play()
+      state.playing = true
+    } catch {
+      // 当前 URL 失效，重新获取播放地址
+      const song = currentSong.value
+      if (song && song.cid) {
+        try {
+          const url = await getPlayUrl(song.bvid, song.cid)
+          el.src = url
+          await el.play()
+          state.playing = true
+        } catch {
+          state.playing = false
+        }
+      } else {
+        state.playing = false
+      }
+    } finally {
+      state.loading = false
+    }
   } else {
-    void playPage(currentIndex.value, currentSong.value?.currentPageIndex ?? 0)
+    await playPage(currentIndex.value, currentSong.value?.currentPageIndex ?? 0)
   }
 }
 

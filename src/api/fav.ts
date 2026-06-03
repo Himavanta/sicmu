@@ -35,45 +35,65 @@ export interface FavResource {
   upperName: string
 }
 
-export async function getFavResources(mediaId: number): Promise<FavResource[]> {
-  const data: any = await biliApi
-    .get('https://api.bilibili.com/x/v3/fav/resource/list', {
-      searchParams: { media_id: mediaId, ps: 20, pn: 1 },
-    })
-    .json()
-  if (!data.data?.medias) return []
-  return data.data.medias
-    .filter((m: any) => m.type === 2)
-    .map((m: any) => ({
-      bvid: m.bvid ?? m.bv_id,
-      title: m.title,
-      duration: m.duration,
-      pageCount: m.page ?? 1,
-      upperName: m.upper?.name ?? '',
-    }))
+export interface FavResourceList {
+  items: FavResource[]
+  hasMore: boolean
 }
 
-export async function getSeasonResources(seasonId: number, mid: number): Promise<FavResource[]> {
+export async function getFavResources(
+  mediaId: number,
+  page = 1,
+  pageSize = 50,
+): Promise<FavResourceList> {
+  const data: any = await biliApi
+    .get('https://api.bilibili.com/x/v3/fav/resource/list', {
+      searchParams: { media_id: mediaId, ps: pageSize, pn: page },
+    })
+    .json()
+  if (!data.data?.medias) return { items: [], hasMore: false }
+  return {
+    items: data.data.medias
+      .filter((m: any) => m.type === 2)
+      .map((m: any) => ({
+        bvid: m.bvid ?? m.bv_id,
+        title: m.title,
+        duration: m.duration,
+        pageCount: m.page ?? 1,
+        upperName: m.upper?.name ?? '',
+      })),
+    hasMore: !!data.data.has_more,
+  }
+}
+
+export async function getSeasonResources(
+  seasonId: number,
+  mid: number,
+  page = 1,
+  pageSize = 30,
+): Promise<FavResourceList> {
   const data: any = await biliApi
     .get('https://api.bilibili.com/x/polymer/web-space/seasons_archives_list', {
       searchParams: {
         mid,
         season_id: seasonId,
         sort_reverse: false,
-        page_size: 30,
-        page_num: 1,
+        page_size: pageSize,
+        page_num: page,
         web_location: '333.1387',
       },
     })
     .json()
-  if (!data.data?.archives) return []
-  return data.data.archives.map((a: any) => ({
-    bvid: a.bvid,
-    title: a.title,
-    duration: a.duration,
-    pageCount: 1,
-    upperName: '',
-  }))
+  if (!data.data?.archives) return { items: [], hasMore: false }
+  return {
+    items: data.data.archives.map((a: any) => ({
+      bvid: a.bvid,
+      title: a.title,
+      duration: a.duration,
+      pageCount: 1,
+      upperName: '',
+    })),
+    hasMore: !!data.data.has_more,
+  }
 }
 
 export async function getCollectedFavFolders(upMid: number): Promise<FavFolder[]> {

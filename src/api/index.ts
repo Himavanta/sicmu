@@ -7,4 +7,4 @@ export {
   getFavResources,
   getSeasonResources,
 } from './fav.ts'
-export type { FavFolder, FavResource } from './fav.ts'
+export type { FavFolder, FavResource, FavResourceList } from './fav.ts'

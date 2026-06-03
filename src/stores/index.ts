@@ -14,4 +14,6 @@ export {
 
 export { play, playPage, togglePlay, next, prev, seek, previewSeek, getAudio } from './player.ts'
 
+export { queryClient } from './query-client.ts'
+
 export { ensureMeta, useVideoMeta } from './meta.ts'

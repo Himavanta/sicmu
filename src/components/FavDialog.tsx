@@ -10,8 +10,8 @@ import {
   getFavResources,
   getSeasonResources,
 } from '../api/index.ts'
-import type { FavFolder, FavResource } from '../api/index.ts'
-import { state, play } from '../stores/index.ts'
+import type { FavFolder, FavResourceList } from '../api/index.ts'
+import { state, play, queryClient } from '../stores/index.ts'
 import type { Song } from '../stores/types.ts'
 
 import style from './FavDialog.module.scss'
@@ -21,7 +21,6 @@ export default defineComponent(
     const midQuery = useQuery({
       queryKey: ['user-mid'],
       queryFn: getCurrentUserMid,
-      staleTime: 5 * 60 * 1000,
     })
 
     const createdQuery = useQuery({
@@ -44,20 +43,24 @@ export default defineComponent(
     )
 
     async function handleFolderClick(folder: FavFolder) {
-      let resources: FavResource[]
+      let resources: FavResourceList
       try {
-        if (folder.type === 21 && folder.ownerMid) {
-          resources = await getSeasonResources(folder.id, folder.ownerMid)
-        } else {
-          resources = await getFavResources(folder.id)
-        }
+        const fn =
+          folder.type === 21 && folder.ownerMid
+            ? () => getSeasonResources(folder.id, folder.ownerMid!)
+            : () => getFavResources(folder.id)
+        resources = await queryClient.fetchQuery({
+          queryKey: ['fav-resources', folder.type === 21 ? 'season' : 'folder', folder.id],
+          queryFn: fn,
+          staleTime: 60 * 1000,
+        })
       } catch (e) {
         console.error('获取内容失败:', e)
         return
       }
-      if (resources.length === 0) return
+      if (resources.items.length === 0) return
 
-      const songs: Song[] = resources.map((r) => {
+      const songs: Song[] = resources.items.map((r) => {
         const pages =
           r.pageCount > 1
             ? Array.from({ length: r.pageCount }, () => ({

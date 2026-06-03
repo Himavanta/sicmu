@@ -10,8 +10,8 @@ import {
   getFavResources,
   getSeasonResources,
 } from '../api/index.ts'
-import type { FavFolder, FavResourceList } from '../api/index.ts'
-import { state, play, queryClient } from '../stores/index.ts'
+import type { FavFolder, FavResource } from '../api/index.ts'
+import { state, play } from '../stores/index.ts'
 import type { Song } from '../stores/types.ts'
 
 import style from './FavDialog.module.scss'
@@ -43,24 +43,20 @@ export default defineComponent(
     )
 
     async function handleFolderClick(folder: FavFolder) {
-      let resources: FavResourceList
+      let items: FavResource[]
       try {
-        const fn =
+        const result =
           folder.type === 21 && folder.ownerMid
-            ? () => getSeasonResources(folder.id, folder.ownerMid!)
-            : () => getFavResources(folder.id)
-        resources = await queryClient.fetchQuery({
-          queryKey: ['fav-resources', folder.type === 21 ? 'season' : 'folder', folder.id],
-          queryFn: fn,
-          staleTime: 60 * 1000,
-        })
+            ? await getSeasonResources(folder.id, folder.ownerMid)
+            : await getFavResources(folder.id)
+        items = result.items
       } catch (e) {
         console.error('获取内容失败:', e)
         return
       }
-      if (resources.items.length === 0) return
+      if (items.length === 0) return
 
-      const songs: Song[] = resources.items.map((r) => {
+      const songs: Song[] = items.map((r) => {
         const pages =
           r.pageCount > 1
             ? Array.from({ length: r.pageCount }, () => ({

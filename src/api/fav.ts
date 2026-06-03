@@ -43,7 +43,7 @@ export interface FavResourceList {
 export async function getFavResources(
   mediaId: number,
   page = 1,
-  pageSize = 50,
+  pageSize = 20,
 ): Promise<FavResourceList> {
   const data: any = await biliApi
     .get('https://api.bilibili.com/x/v3/fav/resource/list', {

@@ -56,11 +56,16 @@ export async function playPage(index: number, pageIndex: number) {
   const song = state.playlist[index]
   if (!song) return
 
+  // 立即停掉当前播放，切到加载状态
+  const el = ensureAudio()
+  el.pause()
+  state.playing = false
+  state.currentId = song.bvid
+  state.currentTime = 0
+  state.loading = true
+
   // 首次播放或占位分P：获取元数据
   if (!song.metaLoaded) {
-    state.currentId = song.bvid
-    state.currentTime = 0
-    state.loading = true
     const ok = await ensureMeta(song)
     if (!ok) {
       state.loading = false
@@ -73,12 +78,7 @@ export async function playPage(index: number, pageIndex: number) {
   const page = song.pages[pi]
   song.cid = page.cid
 
-  state.currentId = song.bvid
-  state.currentTime = 0
-  state.loading = true
-
   try {
-    const el = ensureAudio()
     const url = await getPlayUrl(song.bvid, page.cid)
     el.src = url
     await el.play()
@@ -86,6 +86,7 @@ export async function playPage(index: number, pageIndex: number) {
   } catch (e) {
     console.error('播放失败:', e)
     state.playing = false
+  } finally {
     state.loading = false
   }
 }

@@ -1,29 +1,14 @@
 # Sicmu — Bilibili 音乐播放器
 
-注入油猴脚本到 Bilibili 页面，利用 B 站 API 和用户登录态，实现一个独立的、优雅的音乐播放器。
+将 B 站页面变成纯音乐播放器，利用收藏夹和订阅列表播歌。
 
 ## 安装
 
-1. 确保已安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
-2. [通过 unpkg 安装](https://unpkg.com/sicmu/dist/data.user.js)（推荐）
+1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
+2. 打开 [unpkg 安装链接](https://unpkg.com/sicmu/dist/data.user.js)
 
-> 安装后 Tampermonkey 会自动通过 unpkg 检查更新。
+安装后会自动更新。
 
-### 本地开发
+## 使用
 
-```bash
-# 安装依赖
-pnpm install
-
-# 监听构建
-pnpm watch
-
-# 浏览器安装 public/data.user.js（指向本地 dist/data.user.js）
-```
-
-## 构建
-
-```bash
-pnpm build          # 构建发布版本
-pnpm publish        # 发布到 npm（需 npm login）
-```
+进入 [B 站动态页](https://t.bilibili.com)，页面右侧会浮现播放器界面。点击底部文件夹按钮即可从你的收藏夹或订阅中导入歌单。

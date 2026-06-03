@@ -11,7 +11,7 @@ import { state, togglePlay, prev, next } from '../stores/index.ts'
 import style from './PlayerControls.module.scss'
 
 export default defineComponent(
-  (props: { showPlaylist: boolean; onTogglePlaylist: () => void; onOpenDialog: () => void }) => {
+  (props) => {
     return () => (
       <div class={style.controls}>
         <button class={style.btn} aria-label='上一首' onClick={prev}>

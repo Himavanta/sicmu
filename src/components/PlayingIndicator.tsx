@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 import style from './PlayingIndicator.module.scss'
 
 export default defineComponent(
-  (props: { playing: boolean; loading: boolean; index: number }) => {
+  (props) => {
     return () => (
       <span class={style.box}>
         {props.loading ? (

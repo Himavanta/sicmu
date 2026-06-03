@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 import style from './PlayerInfo.module.scss'
 
 export default defineComponent(
-  (props: { title: string }) => {
+  (props) => {
     return () => (
       <div class={style.info}>
         <h2 class={style.title}>{props.title}</h2>

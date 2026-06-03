@@ -8,24 +8,8 @@ import style from './Row.module.scss'
 
 export type RowMode = 'folder' | 'leaf'
 
-interface TrackRowProps {
-  mode: RowMode
-  title: string
-  duration: string
-  index: number
-  active: boolean
-  pageCount?: number
-  expanded?: boolean
-  loading?: boolean
-  playing?: boolean
-  isLoading?: boolean
-  artist?: string
-  indent?: boolean
-  onClick: () => void
-}
-
 export default defineComponent(
-  (props: TrackRowProps) => {
+  (props) => {
     return () => {
       const isFolder = props.mode === 'folder'
 

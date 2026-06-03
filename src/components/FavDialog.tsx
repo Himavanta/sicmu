@@ -17,7 +17,7 @@ import type { Song } from '../stores/types.ts'
 import style from './FavDialog.module.scss'
 
 export default defineComponent(
-  (props: { onClose: () => void; onPlaylistUpdated?: () => void }) => {
+  (props) => {
     const midQuery = useQuery({
       queryKey: ['user-mid'],
       queryFn: getCurrentUserMid,

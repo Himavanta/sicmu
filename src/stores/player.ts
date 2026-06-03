@@ -1,6 +1,6 @@
-import { getVideoInfo, getPlayUrl } from '../api/index.ts'
+import { getPlayUrl } from '../api/index.ts'
+import { ensureMeta } from './meta.ts'
 import { state, currentIndex, currentSong, getFlatPlaylist, getCurrentFlatIndex } from './state.ts'
-import type { Song } from './types.ts'
 
 /* ══════════════════════════════════════════
    音频管理
@@ -39,28 +39,6 @@ function ensureAudio(): HTMLAudioElement {
     })
   }
   return audio
-}
-
-/* ══════════════════════════════════════════
-   元数据管理
-   ══════════════════════════════════════════ */
-
-/** 确保歌曲元数据已加载，未加载则从 API 获取。返回是否成功。 */
-export async function ensureMeta(song: Song): Promise<boolean> {
-  if (song.metaLoaded) return true
-  try {
-    const info = await getVideoInfo(song.bvid)
-    song.title = info.title
-    song.artist = info.artist
-    song.duration = info.duration
-    song.pic = info.pic
-    song.pages = info.pages
-    song.metaLoaded = true
-    return true
-  } catch (e) {
-    console.error('获取视频信息失败:', e)
-    return false
-  }
 }
 
 /* ══════════════════════════════════════════

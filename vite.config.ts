@@ -5,6 +5,18 @@ import { defineConfig } from 'vite-plus'
 
 const OUT_DIR = 'dist'
 
+const metainfo = `// ==UserScript==
+// @name         Sicmu
+// @version      0.0.1
+// @description  油猴脚本
+// @author       you
+// @match        https://t.bilibili.com/*
+// @run-at       document-idle
+// @grant        none
+// ==/UserScript==
+
+`
+
 export default defineConfig({
   define: {
     __VUE_OPTIONS_API__: 'false',
@@ -15,34 +27,67 @@ export default defineConfig({
   staged: {
     '*': 'vp check --fix',
   },
-  pack: {
-    dts: false,
-    platform: 'browser',
-    minify: true,
-    format: 'iife',
-    css: { minify: true },
-    inputOptions: {
-      onLog(level, log) {
-        if (log.code === 'INVALID_ANNOTATION') return
+  pack: [
+    {
+      dts: false,
+      platform: 'browser',
+      minify: true,
+      format: 'iife',
+      css: { minify: true },
+      inputOptions: {
+        onLog(level, log) {
+          if (log.code === 'INVALID_ANNOTATION') return
+        },
+      },
+      hooks: {
+        'build:done': async () => {
+          const cssPath = resolve(OUT_DIR, 'style.css')
+          const jsPath = resolve(OUT_DIR, 'index.iife.js')
+
+          if (!existsSync(cssPath) || !existsSync(jsPath)) return
+
+          const css = readFileSync(cssPath, 'utf-8')
+          let js = readFileSync(jsPath, 'utf-8')
+
+          const injectCode = `document.head.appendChild(Object.assign(document.createElement('style'),{textContent:${JSON.stringify(css)}}));`
+
+          writeFileSync(jsPath, js + injectCode, 'utf-8')
+          // unlinkSync(cssPath)
+        },
       },
     },
-    hooks: {
-      'build:done': async () => {
-        const cssPath = resolve(OUT_DIR, 'style.css')
-        const jsPath = resolve(OUT_DIR, 'index.iife.js')
+    {
+      dts: false,
+      platform: 'browser',
+      minify: true,
+      format: 'iife',
+      css: { minify: true },
+      outputOptions: {
+        entryFileNames: 'data.user.js',
+      },
+      inputOptions: {
+        onLog(level, log) {
+          if (log.code === 'INVALID_ANNOTATION') return
+        },
+      },
+      hooks: {
+        'build:done': async () => {
+          const cssPath = resolve(OUT_DIR, 'style.css')
+          const jsPath = resolve(OUT_DIR, 'data.user.js')
 
-        if (!existsSync(cssPath) || !existsSync(jsPath)) return
+          if (!existsSync(cssPath) || !existsSync(jsPath)) return
 
-        const css = readFileSync(cssPath, 'utf-8')
-        let js = readFileSync(jsPath, 'utf-8')
+          const css = readFileSync(cssPath, 'utf-8')
+          let js = readFileSync(jsPath, 'utf-8')
 
-        const injectCode = `document.head.appendChild(Object.assign(document.createElement('style'),{textContent:${JSON.stringify(css)}}));`
+          const injectCode = `document.head.appendChild(Object.assign(document.createElement('style'),{textContent:${JSON.stringify(css)}}));`
 
-        writeFileSync(jsPath, js + injectCode, 'utf-8')
-        unlinkSync(cssPath)
+          writeFileSync(jsPath, metainfo + js + injectCode, 'utf-8')
+          unlinkSync(cssPath)
+        },
       },
     },
-  },
+  ],
   lint: {
     options: {
       typeAware: true,

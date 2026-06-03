@@ -16,6 +16,8 @@ const metainfo = `// ==UserScript==
 // @match        https://t.bilibili.com/*
 // @run-at       document-idle
 // @grant        none
+// @updateURL    https://esm.sh/sicmu/dist/data.user.js
+// @downloadURL  https://esm.sh/sicmu/dist/data.user.js
 // ==/UserScript==
 
 `

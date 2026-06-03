@@ -1,5 +1,6 @@
 allowBuilds:
-  vue-demi: set this to true or false
+  vue-demi: true
+  '@parcel/watcher': true
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: npm:@voidzero-dev/vite-plus-test@latest

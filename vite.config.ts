@@ -14,7 +14,6 @@ const metainfo = `// ==UserScript==
 // @description  Bilibili 音乐播放器 - 油猴脚本
 // @author       VanityH
 // @match        https://t.bilibili.com/*
-// @run-at       document-idle
 // @grant        none
 // @updateURL    https://unpkg.com/sicmu/dist/data.user.js
 // @downloadURL  https://unpkg.com/sicmu/dist/data.user.js
@@ -33,6 +32,7 @@ export default defineConfig({
     '*': 'vp check --fix',
   },
   pack: {
+    // entry: 'src/page.ts',
     dts: false,
     platform: 'browser',
     minify: true,
@@ -58,7 +58,7 @@ export default defineConfig({
 
         const injectCode = `document.head.appendChild(Object.assign(document.createElement('style'),{textContent:${JSON.stringify(css)}}));`
 
-        writeFileSync(jsPath, metainfo + js + injectCode, 'utf-8')
+        writeFileSync(jsPath, metainfo + injectCode + js, 'utf-8')
         unlinkSync(cssPath)
       },
     },

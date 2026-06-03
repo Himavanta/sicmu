@@ -27,67 +27,38 @@ export default defineConfig({
   staged: {
     '*': 'vp check --fix',
   },
-  pack: [
-    {
-      dts: false,
-      platform: 'browser',
-      minify: true,
-      format: 'iife',
-      css: { minify: true },
-      inputOptions: {
-        onLog(level, log) {
-          if (log.code === 'INVALID_ANNOTATION') return
-        },
-      },
-      hooks: {
-        'build:done': async () => {
-          const cssPath = resolve(OUT_DIR, 'style.css')
-          const jsPath = resolve(OUT_DIR, 'index.iife.js')
-
-          if (!existsSync(cssPath) || !existsSync(jsPath)) return
-
-          const css = readFileSync(cssPath, 'utf-8')
-          let js = readFileSync(jsPath, 'utf-8')
-
-          const injectCode = `document.head.appendChild(Object.assign(document.createElement('style'),{textContent:${JSON.stringify(css)}}));`
-
-          writeFileSync(jsPath, js + injectCode, 'utf-8')
-          // unlinkSync(cssPath)
-        },
+  pack: {
+    dts: false,
+    platform: 'browser',
+    minify: true,
+    format: 'iife',
+    css: { minify: true },
+    outputOptions: {
+      entryFileNames: 'data.user.js',
+    },
+    inputOptions: {
+      onLog(level, log) {
+        if (log.code === 'INVALID_ANNOTATION') return
       },
     },
-    {
-      dts: false,
-      platform: 'browser',
-      minify: true,
-      format: 'iife',
-      css: { minify: true },
-      outputOptions: {
-        entryFileNames: 'data.user.js',
-      },
-      inputOptions: {
-        onLog(level, log) {
-          if (log.code === 'INVALID_ANNOTATION') return
-        },
-      },
-      hooks: {
-        'build:done': async () => {
-          const cssPath = resolve(OUT_DIR, 'style.css')
-          const jsPath = resolve(OUT_DIR, 'data.user.js')
+    hooks: {
+      'build:done': async () => {
+        const cssPath = resolve(OUT_DIR, 'style.css')
+        const jsPath = resolve(OUT_DIR, 'data.user.js')
 
-          if (!existsSync(cssPath) || !existsSync(jsPath)) return
+        if (!existsSync(cssPath) || !existsSync(jsPath)) return
 
-          const css = readFileSync(cssPath, 'utf-8')
-          let js = readFileSync(jsPath, 'utf-8')
+        const css = readFileSync(cssPath, 'utf-8')
+        let js = readFileSync(jsPath, 'utf-8')
 
-          const injectCode = `document.head.appendChild(Object.assign(document.createElement('style'),{textContent:${JSON.stringify(css)}}));`
+        const injectCode = `document.head.appendChild(Object.assign(document.createElement('style'),{textContent:${JSON.stringify(css)}}));`
 
-          writeFileSync(jsPath, metainfo + js + injectCode, 'utf-8')
-          unlinkSync(cssPath)
-        },
+        writeFileSync(jsPath, metainfo + js + injectCode, 'utf-8')
+        unlinkSync(cssPath)
       },
     },
-  ],
+  },
+
   lint: {
     options: {
       typeAware: true,

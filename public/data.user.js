@@ -7,5 +7,5 @@
 // @match        https://t.bilibili.com/*
 // @run-at       document-idle
 // @grant        none
-// @require      file:///Users/seven/Desktop/mine/sicmu/dist/index.iife.js
+// @require      file:///Users/seven/Desktop/mine/sicmu/dist/data.user.js
 // ==/UserScript==

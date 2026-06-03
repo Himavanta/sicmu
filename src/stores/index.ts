@@ -12,4 +12,14 @@ export {
   getCurrentFlatIndex,
 } from './state.ts'
 
-export { play, playPage, togglePlay, next, prev, seek, previewSeek, getAudio } from './player.ts'
+export {
+  ensureMeta,
+  play,
+  playPage,
+  togglePlay,
+  next,
+  prev,
+  seek,
+  previewSeek,
+  getAudio,
+} from './player.ts'

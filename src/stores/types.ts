@@ -9,7 +9,6 @@ export interface Page {
 /* ── 歌曲 ── */
 
 export interface Song {
-  id: string
   bvid: string
   title: string
   artist: string
@@ -18,6 +17,7 @@ export interface Song {
   cid: number
   pages: Page[]
   currentPageIndex: number
+  metaLoaded: boolean
 }
 
 /* ── 播放器状态 ── */

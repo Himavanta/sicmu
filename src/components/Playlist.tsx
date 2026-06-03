@@ -1,7 +1,6 @@
 import { defineComponent, ref } from 'vue'
 
-import { getVideoInfo } from '../api/index.ts'
-import { state, currentIndex, play, playPage } from '../stores/index.ts'
+import { state, currentIndex, play, playPage, ensureMeta } from '../stores/index.ts'
 import TrackRow from './TrackRow.tsx'
 
 import style from './Playlist.module.scss'
@@ -22,21 +21,11 @@ export default defineComponent(() => {
       return
     }
     const song = state.playlist[si]
-    if (song.pages.length > 1 && song.pages[0]?.cid === 0) {
+    if (song.pages.length > 1 && !song.metaLoaded) {
       loadingMap.value = { ...loadingMap.value, [si]: true }
-      try {
-        const info = await getVideoInfo(song.bvid)
-        song.title = info.title
-        song.artist = info.artist
-        song.duration = info.duration
-        song.pic = info.pic
-        song.pages = info.pages
-      } catch (e) {
-        console.error('获取视频信息失败:', e)
-        loadingMap.value = { ...loadingMap.value, [si]: false }
-        return
-      }
+      const ok = await ensureMeta(song)
       loadingMap.value = { ...loadingMap.value, [si]: false }
+      if (!ok) return
     }
     expandedMap.value = { ...expandedMap.value, [si]: true }
   }
@@ -70,6 +59,9 @@ export default defineComponent(() => {
                   pageCount={song.pages.length}
                   expanded={isExpanded}
                   loading={isLoading}
+                  playing={false}
+                  isLoading={false}
+                  indent={false}
                   onClick={() => void toggleExpand(si)}
                 />,
               )
@@ -89,6 +81,9 @@ export default defineComponent(() => {
                       active={isPagePlaying}
                       playing={isPagePlaying}
                       isLoading={state.loading && isPagePlaying}
+                      pageCount={0}
+                      expanded={false}
+                      loading={false}
                       indent
                       onClick={() => void playPage(si, pi)}
                     />,
@@ -108,6 +103,10 @@ export default defineComponent(() => {
                   active={isPlaying}
                   playing={isPlaying}
                   isLoading={state.loading && isPlaying}
+                  pageCount={0}
+                  expanded={false}
+                  loading={false}
+                  indent={false}
                   onClick={() => void play(si)}
                 />,
               )

@@ -1,5 +1,6 @@
 import { getVideoInfo, getPlayUrl } from '../api/index.ts'
 import { state, currentIndex, currentSong, getFlatPlaylist, getCurrentFlatIndex } from './state.ts'
+import type { Song } from './types.ts'
 
 /* ══════════════════════════════════════════
    音频管理
@@ -41,6 +42,28 @@ function ensureAudio(): HTMLAudioElement {
 }
 
 /* ══════════════════════════════════════════
+   元数据管理
+   ══════════════════════════════════════════ */
+
+/** 确保歌曲元数据已加载，未加载则从 API 获取。返回是否成功。 */
+export async function ensureMeta(song: Song): Promise<boolean> {
+  if (song.metaLoaded) return true
+  try {
+    const info = await getVideoInfo(song.bvid)
+    song.title = info.title
+    song.artist = info.artist
+    song.duration = info.duration
+    song.pic = info.pic
+    song.pages = info.pages
+    song.metaLoaded = true
+    return true
+  } catch (e) {
+    console.error('获取视频信息失败:', e)
+    return false
+  }
+}
+
+/* ══════════════════════════════════════════
    播放控制
    ══════════════════════════════════════════ */
 
@@ -55,19 +78,12 @@ export async function playPage(index: number, pageIndex: number) {
   if (!song) return
 
   // 首次播放或占位分P：获取元数据
-  if (song.pages.length === 0 || song.pages[0]?.cid === 0) {
-    state.currentId = song.id
+  if (!song.metaLoaded) {
+    state.currentId = song.bvid
     state.currentTime = 0
     state.loading = true
-    try {
-      const info = await getVideoInfo(song.bvid)
-      song.title = info.title
-      song.artist = info.artist
-      song.duration = info.duration
-      song.pic = info.pic
-      song.pages = info.pages
-    } catch (e) {
-      console.error('获取视频信息失败:', e)
+    const ok = await ensureMeta(song)
+    if (!ok) {
       state.loading = false
       return
     }
@@ -78,7 +94,7 @@ export async function playPage(index: number, pageIndex: number) {
   const page = song.pages[pi]
   song.cid = page.cid
 
-  state.currentId = song.id
+  state.currentId = song.bvid
   state.currentTime = 0
   state.loading = true
 

@@ -18,14 +18,14 @@ export const state = reactive<PlayerState>({
 
 /* ── 计算属性 ── */
 
-/** 当前歌曲在列表中的索引（根据 currentId 推导） */
+/** 当前歌曲在列表中的索引 */
 export const currentIndex = computed(() =>
-  state.playlist.findIndex((s) => s.id === state.currentId),
+  state.playlist.findIndex((s) => s.bvid === state.currentId),
 )
 
 /** 当前 Song 对象 */
 export const currentSong = computed(
-  () => state.playlist.find((s) => s.id === state.currentId) ?? null,
+  () => state.playlist.find((s) => s.bvid === state.currentId) ?? null,
 )
 
 /** 当前正在播放的标题 */
@@ -68,7 +68,7 @@ export function getFlatPlaylist(): FlatTrack[] {
   const result: FlatTrack[] = []
   for (let si = 0; si < state.playlist.length; si++) {
     const song = state.playlist[si]
-    const hasRealPages = song.pages.length > 1 && song.pages[0]?.cid > 0
+    const hasRealPages = song.pages.length > 1 && song.metaLoaded
     if (hasRealPages) {
       for (let pi = 0; pi < song.pages.length; pi++) {
         const page = song.pages[pi]
@@ -98,7 +98,7 @@ export function getCurrentFlatIndex(): number {
   let idx = 0
   for (let si = 0; si < ci; si++) {
     const song = state.playlist[si]
-    const hasRealPages = song.pages.length > 1 && song.pages[0]?.cid > 0
+    const hasRealPages = song.pages.length > 1 && song.metaLoaded
     idx += hasRealPages ? song.pages.length : 1
   }
   const song = currentSong.value

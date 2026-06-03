@@ -67,7 +67,6 @@ export default defineComponent(
               }))
             : []
         return {
-          id: r.bvid,
           bvid: r.bvid,
           title: r.title,
           artist: r.upperName,
@@ -76,6 +75,7 @@ export default defineComponent(
           cid: 0,
           pages,
           currentPageIndex: 0,
+          metaLoaded: false,
         }
       })
 

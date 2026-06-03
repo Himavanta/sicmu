@@ -9,9 +9,10 @@ const { version } = JSON.parse(readFileSync(resolve('package.json'), 'utf-8'))
 
 const metainfo = `// ==UserScript==
 // @name         Sicmu
+// @namespace    https://github.com/VanityH/sicmu
 // @version      ${version}
-// @description  油猴脚本
-// @author       you
+// @description  Bilibili 音乐播放器 - 油猴脚本
+// @author       VanityH
 // @match        https://t.bilibili.com/*
 // @run-at       document-idle
 // @grant        none

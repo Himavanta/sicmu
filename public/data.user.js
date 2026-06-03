@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Sicmu
-// @namespace    https://sicmu.dev/
+// @namespace    https://github.com/VanityH/sicmu
 // @version      0.0.1
-// @description  油猴脚本
-// @author       you
+// @description  Bilibili 音乐播放器 - 油猴脚本
+// @author       VanityH
 // @match        https://t.bilibili.com/*
 // @run-at       document-idle
 // @grant        none

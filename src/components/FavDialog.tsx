@@ -81,11 +81,11 @@ export default defineComponent(
 
       state.playlist.splice(0, state.playlist.length, ...songs)
 
-      // 直接播第一首
-      await play(0)
-
       props.onPlaylistUpdated?.()
       props.onClose()
+
+      // 直接播第一首（不等待，让对话框立即关闭）
+      void play(0)
     }
 
     return () => (

@@ -60,7 +60,7 @@ export default defineComponent(
       const songs: Song[] = resources.map((r) => {
         const pages =
           r.pageCount > 1
-            ? Array.from({ length: r.pageCount }, (_, i) => ({
+            ? Array.from({ length: r.pageCount }, () => ({
                 cid: 0,
                 title: '加载中…',
                 duration: 0,

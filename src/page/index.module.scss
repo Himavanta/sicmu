@@ -1,7 +1,5 @@
-body {
-  > :not([data-v-app]) {
-    display: none;
-  }
+body:has(.component) > :not([data-v-app]) {
+  display: none;
 }
 
 .component {

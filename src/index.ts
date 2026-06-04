@@ -7,7 +7,7 @@ import PagePlayer from './page/index.tsx'
 import router from './page/router.ts'
 import { queryClient } from './stores/query-client.ts'
 
-if (String(location).startsWith('https://t.bilibili.com/sicmu/')) {
+if (location.href === 'https://t.bilibili.com/sicmu') {
   const app = createApp(PagePlayer)
   app.use(router)
   const container = useApp(app)

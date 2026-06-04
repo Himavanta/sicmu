@@ -32,7 +32,6 @@ export default defineConfig({
     '*': 'vp check --fix',
   },
   pack: {
-    // entry: 'src/page.ts',
     dts: false,
     platform: 'browser',
     minify: true,

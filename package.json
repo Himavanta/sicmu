@@ -23,10 +23,9 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "vp dev",
+    "dev": "vp pack --watch",
     "build": "vp pack",
     "check": "vp check",
-    "watch": "vp pack --watch",
     "prepublishOnly": "vp run build",
     "prepare": "vp config"
   },
@@ -41,7 +40,8 @@
     "sass-embedded": "^1.100.0",
     "typescript": "^6.0.3",
     "vite-plus": "catalog:",
-    "vue": "^3.5.35"
+    "vue": "^3.5.35",
+    "vue-router": "^5.1.0"
   },
   "packageManager": "pnpm@11.5.0"
 }

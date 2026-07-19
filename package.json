@@ -2,15 +2,15 @@
   "name": "sicmu",
   "version": "0.0.3",
   "description": "Bilibili 音乐播放器 - 油猴脚本",
-  "homepage": "https://github.com/VanityH/sicmu#readme",
+  "homepage": "https://github.com/Himavanta/sicmu#readme",
   "bugs": {
-    "url": "https://github.com/VanityH/sicmu/issues"
+    "url": "https://github.com/Himavanta/sicmu/issues"
   },
   "license": "MIT",
   "author": "VanityH",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VanityH/sicmu.git"
+    "url": "git+https://github.com/Himavanta/sicmu.git"
   },
   "files": [
     "dist"

@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         SicmuLocalDev
-// @namespace    https://github.com/VanityH/sicmu
-// @version      0.0.1
+// @namespace    https://github.com/Himavanta/sicmu
+// @version      0.0.0
 // @description  Bilibili 音乐播放器 - 油猴脚本
-// @author       VanityH
+// @author       Himavanta
 // @match        https://t.bilibili.com/*
 // @run-at       document-idle
 // @grant        none

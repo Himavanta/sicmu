@@ -1,0 +1,28 @@
+<template>
+  <div :class="$style.component">
+    <span>PlayerPage</span>
+    <RouterView />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useTitle } from '@vueuse/core'
+import { RouterView } from 'vue-router'
+
+useTitle('hhh')
+</script>
+
+<style module lang="scss">
+body:has(.component) > :not([data-v-app]) {
+  display: none;
+}
+
+.component {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+}
+</style>

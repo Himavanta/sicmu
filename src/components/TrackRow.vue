@@ -1,3 +1,69 @@
+<template>
+  <div
+    :class="
+      [$style.row, active && $style.rowActive, indent && $style.rowIndent].filter(Boolean).join(' ')
+    "
+    :title="artist ? `${title} — ${artist}` : title"
+    @click="$emit('click')"
+  >
+    <!-- 索引列 -->
+    <div :class="$style.index">
+      <template v-if="mode === 'folder'">
+        <span v-if="loading" :class="$style.spinner" />
+        <IconChevronDown v-else-if="expanded" :size="14" />
+        <IconChevronRight v-else :size="14" />
+      </template>
+      <PlayingIndicator
+        v-else
+        :playing="playing ?? false"
+        :loading="isLoading ?? false"
+        :index="index"
+      />
+    </div>
+
+    <!-- 标题 -->
+    <span :class="[$style.title, active && $style.titleActive].filter(Boolean).join(' ')">
+      {{ title }}
+    </span>
+
+    <!-- 元信息（仅 folder） -->
+    <span v-if="mode === 'folder' && pageCount != null" :class="$style.meta">
+      {{ pageCount }} 首
+    </span>
+
+    <!-- 时长 -->
+    <span :class="$style.duration">{{ duration }}</span>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { IconChevronDown, IconChevronRight } from '@tabler/icons-vue'
+
+import PlayingIndicator from './PlayingIndicator.vue'
+
+type RowMode = 'folder' | 'leaf'
+
+defineProps<{
+  mode: RowMode
+  title: string
+  duration: string
+  index: number
+  active: boolean
+  pageCount?: number
+  expanded?: boolean
+  loading?: boolean
+  playing?: boolean
+  isLoading?: boolean
+  artist?: string
+  indent?: boolean
+}>()
+
+defineEmits<{
+  click: []
+}>()
+</script>
+
+<style module lang="scss">
 /* ════════════════════════════════════════
    统一行样式
    ════════════════════════════════════════ */
@@ -87,3 +153,4 @@
     transform: rotate(360deg);
   }
 }
+</style>

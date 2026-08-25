@@ -1,3 +1,24 @@
+<template>
+  <span :class="$style.box">
+    <span v-if="loading" :class="$style.dot" />
+    <span v-else-if="playing" :class="$style.bars">
+      <span />
+      <span />
+      <span />
+    </span>
+    <span v-else :class="$style.num">{{ index }}</span>
+  </span>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  playing: boolean
+  loading: boolean
+  index: number
+}>()
+</script>
+
+<style module lang="scss">
 .box {
   display: flex;
   align-items: center;
@@ -73,3 +94,4 @@
     transform: scaleY(1);
   }
 }
+</style>

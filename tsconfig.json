@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["es2023", "DOM"],
+    "lib": ["esnext", "dom", "dom.iterable"],
     "moduleDetection": "force",
     "module": "nodenext",
     "moduleResolution": "nodenext",
@@ -16,9 +16,6 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-
-    "jsx": "react-native",
-    "jsxImportSource": "vue",
     "paths": { "/*": ["./*"] }
   }
 }

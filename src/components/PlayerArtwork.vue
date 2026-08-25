@@ -1,3 +1,25 @@
+<template>
+  <div :class="$style.artwork">
+    <template v-if="currentSong?.pic">
+      <img
+        :class="[$style.coverImg, state.playing && !state.loading && $style.coverWrapPlaying]"
+        :src="currentSong.pic"
+        :alt="currentSong.title"
+        referrerpolicy="origin"
+      />
+      <div
+        :class="[$style.overlay, state.playing && $style.overlayPlaying].filter(Boolean).join(' ')"
+      />
+    </template>
+    <div v-else :class="$style.gradient" />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { state, currentSong } from '../stores/index.ts'
+</script>
+
+<style module lang="scss">
 .artwork {
   width: 100%;
   height: 100%;
@@ -14,6 +36,16 @@
     radial-gradient(ellipse 100% 80% at 50% 100%, #0f3460 0%, #0a0a1a 70%);
 }
 
+.coverImg {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: blur(8px) brightness(0.65);
+  object-fit: cover;
+  object-position: center;
+}
+
 .coverWrapPlaying {
   animation: coverBreathe 8s ease-in-out infinite alternate;
 }
@@ -28,16 +60,6 @@
   100% {
     filter: blur(10px) brightness(2);
   }
-}
-
-.coverImg {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  filter: blur(8px) brightness(0.65);
-  object-fit: cover;
-  object-position: center;
 }
 
 .coverImgPlaying {
@@ -86,3 +108,4 @@
     opacity: 0.85;
   }
 }
+</style>

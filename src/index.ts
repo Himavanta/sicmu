@@ -2,8 +2,8 @@ import { VueQueryPlugin } from '@tanstack/vue-query'
 import { createApp } from 'vue'
 import type { App as VueApp } from 'vue'
 
-import CardPlayer from './card/index.tsx'
-import PagePlayer from './page/index.tsx'
+import CardPlayer from './card/index.vue'
+import PagePlayer from './page/index.vue'
 import router from './page/router.ts'
 import { queryClient } from './stores/query-client.ts'
 

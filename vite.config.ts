@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 
+import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite-plus'
 
 const OUT_DIR = 'dist'
@@ -22,26 +23,23 @@ const metainfo = `// ==UserScript==
 `
 
 export default defineConfig({
-  define: {
-    __VUE_OPTIONS_API__: 'false',
-    __VUE_PROD_DEVTOOLS__: 'false',
-    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
-  },
-  oxc: { jsx: { importSource: 'vue' } },
+  plugins: [vue()],
   staged: {
     '*': 'vp check --fix',
   },
   pack: {
+    fromVite: true,
     dts: false,
     platform: 'browser',
     minify: true,
     format: 'iife',
+    sourcemap: false,
     css: { minify: true },
     outputOptions: {
       entryFileNames: 'data.user.js',
     },
     inputOptions: {
-      onLog(level, log) {
+      onLog(_, log) {
         if (log.code === 'INVALID_ANNOTATION') return
       },
     },

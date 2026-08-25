@@ -44,7 +44,7 @@ export default defineConfig({
       },
     },
     hooks: {
-      'build:done': async () => {
+      'build:done'() {
         const cssPath = resolve(OUT_DIR, 'style.css')
         const jsPath = resolve(OUT_DIR, 'data.user.js')
 

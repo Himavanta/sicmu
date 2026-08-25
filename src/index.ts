@@ -3,11 +3,9 @@ import type { App as VueApp } from 'vue'
 
 import CardPlayer from './card/index.vue'
 import PagePlayer from './page/index.vue'
-import router from './page/router.ts'
 
 if (location.href === 'https://t.bilibili.com/sicmu') {
   const app = createApp(PagePlayer)
-  app.use(router)
   const container = useApp(app)
 
   document.body.append(container)

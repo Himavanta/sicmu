@@ -72,8 +72,7 @@
 
 <script setup lang="ts">
 import { IconFolder, IconX } from '@tabler/icons-vue'
-import { useQuery } from '@tanstack/vue-query'
-import { computed } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import {
   getCurrentUserMid,
@@ -91,31 +90,26 @@ const emit = defineEmits<{
   playlistUpdated: []
 }>()
 
-const midQuery = useQuery({
-  queryKey: ['user-mid'],
-  queryFn: getCurrentUserMid,
+const loading = ref(true)
+const createdFolders = ref<FavFolder[]>([])
+const collectedFolders = ref<FavFolder[]>([])
+
+// 每次打开对话框重新请求（无需缓存）
+onMounted(async () => {
+  try {
+    const mid = await getCurrentUserMid()
+    const [created, collected] = await Promise.all([
+      getCreatedFavFolders(mid),
+      getCollectedFavFolders(mid),
+    ])
+    createdFolders.value = created
+    collectedFolders.value = collected
+  } catch (e) {
+    console.error('获取收藏夹失败:', e)
+  } finally {
+    loading.value = false
+  }
 })
-
-const createdQuery = useQuery({
-  queryKey: ['fav-folders', 'created', midQuery.data.value],
-  queryFn: () => getCreatedFavFolders(midQuery.data.value!),
-  enabled: computed(() => !!midQuery.data.value),
-  retry: 1,
-})
-
-const collectedQuery = useQuery({
-  queryKey: ['fav-folders', 'collected', midQuery.data.value],
-  queryFn: () => getCollectedFavFolders(midQuery.data.value!),
-  enabled: computed(() => !!midQuery.data.value),
-  retry: 1,
-})
-
-const loading = computed(
-  () => midQuery.isLoading.value || createdQuery.isLoading.value || collectedQuery.isLoading.value,
-)
-
-const createdFolders = computed(() => createdQuery.data.value ?? [])
-const collectedFolders = computed(() => collectedQuery.data.value ?? [])
 
 async function handleFolderClick(folder: FavFolder) {
   let items: FavResource[]

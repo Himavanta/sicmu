@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "@tabler/icons-vue": "^3.46.0",
-    "@tanstack/vue-query": "^5.102.2",
     "@tsdown/css": "^0.22.14",
     "@types/node": "^26.2.0",
     "@vitejs/plugin-vue": "^6.0.8",

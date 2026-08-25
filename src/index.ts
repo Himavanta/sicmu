@@ -1,11 +1,9 @@
-import { VueQueryPlugin } from '@tanstack/vue-query'
 import { createApp } from 'vue'
 import type { App as VueApp } from 'vue'
 
 import CardPlayer from './card/index.vue'
 import PagePlayer from './page/index.vue'
 import router from './page/router.ts'
-import { queryClient } from './stores/query-client.ts'
 
 if (location.href === 'https://t.bilibili.com/sicmu') {
   const app = createApp(PagePlayer)
@@ -35,7 +33,6 @@ if (location.href === 'https://t.bilibili.com/sicmu') {
 }
 
 function useApp(app: VueApp<Element>) {
-  app.use(VueQueryPlugin, { queryClient })
   const box = document.createElement('div')
   app.mount(box)
   return box

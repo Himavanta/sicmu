@@ -106,17 +106,17 @@ _请求方法: GET_
 
 注: 此处属性备注为页面实际渲染的情况
 
-| 字段       | 类型     | 内容     | 备注                                                                                                                           |
+| 字段 | 类型 | 内容 | 备注 |
 | ---------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ | ---- | ------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| align      | string?  | 文字对齐 | 参见 [text-align](https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-align)                                                 |
-| blockquote | boolean? | 块级引用 | 参见 [\<blockquote\>：块级引用元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/blockquote)           |
-| bold       | boolean? | 加粗     | 参见 [\<strong\>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/strong)                                 |
-| class      | string?  | 类名     | 参见 [class](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Global_attributes/class)                              |
-| color      | string?  | 颜色     | 十六进制颜色值, 参见 [color](https://developer.mozilla.org/zh-CN/docs/Web/CSS/color)                                           |
-| header     | number?  | 标题级别 | 参见 [\<h1\>–\<h6\>：HTML 区域标题元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/Heading_Elements) |
-| strike     | boolean? | 删除线   | 参见 [\<s\>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/s)                                           |
-| link       | string?  | 站内链接 | 参见 [\<a\>：锚元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/a)                                   |
-| italic     | boolean? | 斜体     | 参见 [\<em\>：强调元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/em)                               | list | string? | 列表 | `bullet`: 无序列表, 参见 [\<ul\>：无序列表元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/ul)<br />`ordered`: 有序列表, 参见 [\<ol\>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/ol) |
+| align | string? | 文字对齐 | 参见 [text-align](https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-align) |
+| blockquote | boolean? | 块级引用 | 参见 [\<blockquote\>：块级引用元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/blockquote) |
+| bold | boolean? | 加粗 | 参见 [\<strong\>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/strong) |
+| class | string? | 类名 | 参见 [class](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Global_attributes/class) |
+| color | string? | 颜色 | 十六进制颜色值, 参见 [color](https://developer.mozilla.org/zh-CN/docs/Web/CSS/color) |
+| header | number? | 标题级别 | 参见 [\<h1\>–\<h6\>：HTML 区域标题元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/Heading_Elements) |
+| strike | boolean? | 删除线 | 参见 [\<s\>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/s) |
+| link | string? | 站内链接 | 参见 [\<a\>：锚元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/a) |
+| italic | boolean? | 斜体 | 参见 [\<em\>：强调元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/em) | list | string? | 列表 | `bullet`: 无序列表, 参见 [\<ul\>：无序列表元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/ul)<br />`ordered`: 有序列表, 参见 [\<ol\>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Elements/ol) |
 
 `data.content` 代表的对象中的 `ops[].insert` 为对象时的对象:
 

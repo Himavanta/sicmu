@@ -358,42 +358,42 @@ _请求方式：GET_
 
 `data`中的对象：
 
-| 字段           | 类型  | 内容         | 备注 |
+| 字段 | 类型 | 内容 | 备注 |
 | -------------- | ----- | ------------ | ---- | --- |
-| onlineNum      | num   | 在线观众数量 |      |
-| OnlineRankItem | array | 结果         |      |     |
+| onlineNum | num | 在线观众数量 | |
+| OnlineRankItem | array | 结果 | | |
 
 `OnlineRankItem`数组中的对象：
 
-| 字段         | 类型 | 内容         | 备注 |
+| 字段 | 类型 | 内容 | 备注 |
 | ------------ | ---- | ------------ | ---- | --- |
-| userRank     | num  | 贡献值排名   |      |
-| uid          | num  | 用户id       |      |     |
-| name         | str  | 用户名字     |      |     |
-| face         | str  | 用户头像     |      |     |
-| score        | num  | 贡献值       |      |     |
-| medalInfo    | obj  | 粉丝牌对象   |      |     |
-| guard_level  | num  | 大航海类型   |      |     |
-| wealth_level | num  | 荣耀等级     |      |     |
-| guard_level  | num  | 大航海类型   |      |     |
-| uinfo        | obj  | 用户详细信息 |      |     |
+| userRank | num | 贡献值排名 | |
+| uid | num | 用户id | | |
+| name | str | 用户名字 | | |
+| face | str | 用户头像 | | |
+| score | num | 贡献值 | | |
+| medalInfo | obj | 粉丝牌对象 | | |
+| guard_level | num | 大航海类型 | | |
+| wealth_level | num | 荣耀等级 | | |
+| guard_level | num | 大航海类型 | | |
+| uinfo | obj | 用户详细信息 | | |
 
 `uinfo`对象：
 
-| 字段  | 类型 | 内容         | 备注 |
+| 字段 | 类型 | 内容 | 备注 |
 | ----- | ---- | ------------ | ---- | --- |
-| uid   | num  | 用户uid      |      |
-| base  | obj  | 用户基本信息 |      |     |
-| medal | obj  | 用户粉丝牌   |      |     |
-| face  | str  | 用户头像     |      |     |
-| guard | obj  | 大航海       |      |     |
+| uid | num | 用户uid | |
+| base | obj | 用户基本信息 | | |
+| medal | obj | 用户粉丝牌 | | |
+| face | str | 用户头像 | | |
+| guard | obj | 大航海 | | |
 
 `guard`对象：
 
-| 字段        | 类型 | 内容           | 备注 |
+| 字段 | 类型 | 内容 | 备注 |
 | ----------- | ---- | -------------- | ---- | --- |
-| level       | num  | 大航海类型     |      |
-| expired_str | str  | 大航海到期时间 |      |     |
+| level | num | 大航海类型 | |
+| expired_str | str | 大航海到期时间 | | |
 
 **示例：**
 
@@ -1112,12 +1112,13 @@ _请求方式：GET_
 | fans_medal    | obj  | 粉丝牌             | 如果目标用户隐藏粉丝牌则为null |
 
 `wealth_info`对象：
-| 字段 | 类型 | 内容 | 备注 |
+
+| 字段               | 类型 | 内容                       | 备注 |
 | ------------------ | ---- | -------------------------- | ---- |
-| level | num | 荣耀等级 | |
-| level_total_score | num | 下一等级的荣耀值 | |
-| cur_score | num | 当前荣耀值 | |
-| upgrade_need_score | num | 升到下一等级还差多少荣耀值 | |
+| level              | num  | 荣耀等级                   |      |
+| level_total_score  | num  | 下一等级的荣耀值           |      |
+| cur_score          | num  | 当前荣耀值                 |      |
+| upgrade_need_score | num  | 升到下一等级还差多少荣耀值 |      |
 
 **示例：**
 

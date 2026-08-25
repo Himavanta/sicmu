@@ -67,20 +67,22 @@ curl --location 'https://app.bilibili.com/x/v2/account/teenagers/update' \
 
 <details>
 <summary>查看响应示例：</summary>
-  
+
 ```json
 {
-    "code": 0,
-    "message": "0",
-    "ttl": 1
+  "code": 0,
+  "message": "0",
+  "ttl": 1
 }
 ```
+
 pwd有数值时
+
 ```json
 {
-    "code": -400,
-    "message": "关闭时密码必须为空",
-    "ttl": 1
+  "code": -400,
+  "message": "关闭时密码必须为空",
+  "ttl": 1
 }
 ```
 

@@ -40,15 +40,15 @@ curl 'https://api.bilibili.com/x/note/info' \
 
 <details>
 <summary>查看响应示例：</summary>
-    
+
 ```json
 {
-    "code": 0,
-    "message": "0",
-    "ttl": 1,
-    "data": {
-        "forbid_note_entrance": false
-    }
+  "code": 0,
+  "message": "0",
+  "ttl": 1,
+  "data": {
+    "forbid_note_entrance": false
+  }
 }
 ```
 

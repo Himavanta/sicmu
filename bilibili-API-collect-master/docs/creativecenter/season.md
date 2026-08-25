@@ -817,7 +817,7 @@ curl -G --url 'https://member.bilibili.com/x2/creative/web/season/section' \
 
 <details>
 <summary>查看响应示例:</summary>
-  
+
 会返回全部的，由于很长，这里只保留三个作为例子
 
 ```json
@@ -931,25 +931,25 @@ curl -G --url 'https://member.bilibili.com/x2/creative/web/season/section' \
 
 **正文参数(application/json):**
 
-| 参数名     | 类型 | 内容                                 | 必要性  | 备注 |
+| 参数名 | 类型 | 内容 | 必要性 | 备注 |
 | ---------- | ---- | ------------------------------------ | ------- | ---- | --------------------- |
-| aid        | num  | 视频 ID                              | 必要    |      |
-| season_id  | num  | null                                 | 合集 ID | 必要 | null 表示从合集中移除 |
-| section_id | num  | null                                 | 小节 ID | 必要 | null 表示从小节中移除 |
-| title      | str  | 视频标题                             | 必要    |      |
-| csrf       | str  | CSRF Token (位于 Cookie 中 bili_jct) | 非必要  |      |
+| aid | num | 视频 ID | 必要 | |
+| season_id | num | null | 合集 ID | 必要 | null 表示从合集中移除 |
+| section_id | num | null | 小节 ID | 必要 | null 表示从小节中移除 |
+| title | str | 视频标题 | 必要 | |
+| csrf | str | CSRF Token (位于 Cookie 中 bili_jct) | 非必要 | |
 
 **JSON回复:**
 
 根对象:
 
-| 字段       | 类型 | 内容                                 | 备注 |
+| 字段 | 类型 | 内容 | 备注 |
 | ---------- | ---- | ------------------------------------ | ---- | --- |
-| season_id  | num  | null                                 |      |     |
-| section_id | num  | null                                 |      |     |
-| title      | str  | 标题                                 |      |
-| aid        | num  | aid                                  |      |
-| csrf       | num  | CSRF Token (位于 Cookie 中 bili_jct) |      |
+| season_id | num | null | | |
+| section_id | num | null | | |
+| title | str | 标题 | |
+| aid | num | aid | |
+| csrf | num | CSRF Token (位于 Cookie 中 bili_jct) | |
 
 **示例:**
 

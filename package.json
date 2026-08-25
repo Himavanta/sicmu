@@ -38,10 +38,11 @@
     "bumpp": "^12.2.1",
     "ky": "^2.0.2",
     "sass-embedded": "^1.103.1",
-    "typescript": "^7.0.2",
+    "typescript": "^6.0.3",
     "vite-plus": "catalog:",
     "vue": "^3.5.41",
-    "vue-router": "^5.2.0"
+    "vue-router": "^5.2.0",
+    "vue-tsc": "^3.3.11"
   },
   "packageManager": "pnpm@11.23.0"
 }

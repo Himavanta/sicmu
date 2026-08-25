@@ -1991,25 +1991,25 @@ type===106
 
 根对象:
 
-| 字段        | 类型 | 内容              | 备注         |
+| 字段 | 类型 | 内容 | 备注 |
 | ----------- | ---- | ----------------- | ------------ | --- |
-| cmd         | str  | `NOTICE_MSG`      |              |
-| id          | num  | 待调查            |              |
-| name        | str  | 通知名            |              |
-| full        | obj  | 完整显示信息?     |              |
-| half        | obj  | 半部显示信息?     |              |     |
-| side        | obj  | 边缘显示信息?     |              |
-| roomid      | num  | 目标直播间短号    |              |
-| real_roomid | num  | 目标直播间真实ID  |              |
-| msg_common  | str  | 显示的消息内容    |              |
-| msg_self    | str  | 消息内容本身      | 剔除额外文本 |
-| link_url    | str  | 通知消息跳转的URL |              |
-| msg_type    | num  | 待调查            |              |
-| shield_uid  | num  | 待调查            |              |
-| business_id | str  | 待调查            |              |
-| scatter     | obj  | 待调查            |              |
-| marquee_id  | str  | 待调查            |              |
-| notice_type | num  | 待调查            |              |
+| cmd | str | `NOTICE_MSG` | |
+| id | num | 待调查 | |
+| name | str | 通知名 | |
+| full | obj | 完整显示信息? | |
+| half | obj | 半部显示信息? | | |
+| side | obj | 边缘显示信息? | |
+| roomid | num | 目标直播间短号 | |
+| real_roomid | num | 目标直播间真实ID | |
+| msg_common | str | 显示的消息内容 | |
+| msg_self | str | 消息内容本身 | 剔除额外文本 |
+| link_url | str | 通知消息跳转的URL | |
+| msg_type | num | 待调查 | |
+| shield_uid | num | 待调查 | |
+| business_id | str | 待调查 | |
+| scatter | obj | 待调查 | |
+| marquee_id | str | 待调查 | |
+| notice_type | num | 待调查 | |
 
 **示例:**
 
@@ -2122,15 +2122,15 @@ type===106
 
 根对象:
 
-| 字段       | 类型 | 内容                                | 备注                 |
+| 字段 | 类型 | 内容 | 备注 |
 | ---------- | ---- | ----------------------------------- | -------------------- | -------------------- |
-| cmd        | str  | `PREPARING`                         |                      |
-| round      | num  | 轮播状态:<br/>1正在轮播<br/>0未轮播 | 开启轮播时存在       |
-| roomid     | str  | 直播间ID                            | 未知是真实ID还是短号 | 类型似乎从num改为str |
-| msg_id     | str  | 信息id?                             |                      |
-| p_is_ack   | bool |                                     | 未知                 |
-| p_msg_type | num  | `1`                                 | 未知                 |
-| send_time  | num  | 发送时间                            | UNIX 毫秒时间戳      |
+| cmd | str | `PREPARING` | |
+| round | num | 轮播状态:<br/>1正在轮播<br/>0未轮播 | 开启轮播时存在 |
+| roomid | str | 直播间ID | 未知是真实ID还是短号 | 类型似乎从num改为str |
+| msg_id | str | 信息id? | |
+| p_is_ack | bool | | 未知 |
+| p_msg_type | num | `1` | 未知 |
+| send_time | num | 发送时间 | UNIX 毫秒时间戳 |
 
 **示例:**
 

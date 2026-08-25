@@ -45,11 +45,12 @@ _请求方式: GET_
 | score     | num  | 亲密度   | 恒为0 |
 
 `list`对象的`uinfo`：
-| 字段 | 类型 | 内容 | 备注 |
+
+| 字段  | 类型 | 内容         | 备注                                                     |
 | ----- | ---- | ------------ | -------------------------------------------------------- |
-| uid | num | 用户UID | |
-| base | obj | 用户基本信息 | |
-| medal | obj | 粉丝牌 | 与[此处](/bilibili-API-collect/docs/user/medals)基本一致 |
+| uid   | num  | 用户UID      |                                                          |
+| base  | obj  | 用户基本信息 |                                                          |
+| medal | obj  | 粉丝牌       | 与[此处](/bilibili-API-collect/docs/user/medals)基本一致 |
 
 `list`对象的`uinfo`的`base`：
 

@@ -29,16 +29,17 @@ _请求方式：GET_
 | data    | obj  | 信息本体 |                             |
 
 `data`对象：
-| 字段 | 类型 | 内容 | 备注 |
-|---------|-----|------|-----------------|
-| title | str | 标题 | |
-| pageSize | num | 每页的数据数量 | |
-| totalPage | num | 分页数量 | |
-| list | obj | UP直播情况列表 | |
-| count | num | 曾直播过的UP数量 | |
-| never_lived_count | num | 未直播过的UP数量 | |
-| live_count | num | 正在直播的UP数量 | |
-| never_lived_faces | list | | **尚不明确** |
+
+| 字段              | 类型 | 内容             | 备注         |
+| ----------------- | ---- | ---------------- | ------------ |
+| title             | str  | 标题             |              |
+| pageSize          | num  | 每页的数据数量   |              |
+| totalPage         | num  | 分页数量         |              |
+| list              | obj  | UP直播情况列表   |              |
+| count             | num  | 曾直播过的UP数量 |              |
+| never_lived_count | num  | 未直播过的UP数量 |              |
+| live_count        | num  | 正在直播的UP数量 |              |
+| never_lived_faces | list |                  | **尚不明确** |
 
 `list`对象：
 

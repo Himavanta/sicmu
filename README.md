@@ -2,7 +2,9 @@
 
 将 B 站页面变成纯音乐播放器，利用收藏夹和订阅列表播歌。
 
-![预览](public/preview.png)
+<p align="center">
+  <img src="public/preview.png" width="360" alt="预览" />
+</p>
 
 ## 功能
 

@@ -2,14 +2,14 @@ import { readFileSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 import vue from '@vitejs/plugin-vue'
-import { defineConfig } from 'vite-plus'
+import { defineConfig, type PluginOption } from 'vite-plus'
 
 const OUT_DIR = 'dist'
 
 const { version, description } = JSON.parse(readFileSync(resolve('package.json'), 'utf-8'))
 
 const metainfo = `// ==UserScript==
-// @name         Sicmu
+// @name         sicmu
 // @namespace    https://github.com/Himavanta/sicmu
 // @version      ${version}
 // @description  ${description}
@@ -23,7 +23,7 @@ const metainfo = `// ==UserScript==
 `
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue() as PluginOption],
   staged: {
     '*': 'vp check --fix',
   },

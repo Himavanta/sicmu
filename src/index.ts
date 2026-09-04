@@ -13,25 +13,22 @@ if (location.href === 'https://t.bilibili.com/sicmu') {
   const app = createApp(CardPlayer)
   const container = useApp(app)
 
-  const TARGET_SELECTOR = '.bili-dyn-home--member>aside.right>section.sticky'
-
-  const el = document.querySelector<HTMLElement>(TARGET_SELECTOR)
-  if (el) {
-    el.prepend(container)
-  } else {
-    const observer = new MutationObserver(() => {
-      const target = document.querySelector<HTMLElement>(TARGET_SELECTOR)
-      if (target) {
-        target.prepend(container)
-        observer.disconnect()
-      }
-    })
-    observer.observe(document.body, { childList: true, subtree: true })
-  }
+  mount('.bili-dyn-home--member>aside.right>section.sticky', container)
 }
 
 function useApp(app: VueApp<Element>) {
   const box = document.createElement('div')
   app.mount(box)
   return box
+}
+
+function mount(selector: string, el: Node) {
+  const observer = new MutationObserver(() => {
+    const target = document.querySelector<HTMLElement>(selector)
+    if (target) {
+      target.append(el)
+      observer.disconnect()
+    }
+  })
+  observer.observe(document.documentElement, { childList: true, subtree: true })
 }

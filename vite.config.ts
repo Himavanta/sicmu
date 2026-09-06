@@ -16,6 +16,7 @@ const metainfo = `// ==UserScript==
 // @author       Himavanta
 // @match        https://t.bilibili.com/*
 // @grant        none
+// @run-at       document-start
 // @updateURL    https://unpkg.com/sicmu/dist/data.user.js
 // @downloadURL  https://unpkg.com/sicmu/dist/data.user.js
 // ==/UserScript==

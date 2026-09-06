@@ -1,13 +1,11 @@
 <template>
   <div :class="$style.component">
     <span>PlayerPage</span>
-    <RouterView />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useTitle } from '@vueuse/core'
-import { RouterView } from 'vue-router'
 
 useTitle('hhh')
 </script>

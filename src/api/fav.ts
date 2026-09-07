@@ -69,7 +69,7 @@ export async function getSeasonResources(
   seasonId: number,
   mid: number,
   page = 1,
-  pageSize = 30,
+  pageSize = 100,
 ): Promise<FavResourceList> {
   const data: any = await biliApi
     .get('https://api.bilibili.com/x/polymer/web-space/seasons_archives_list', {
@@ -84,6 +84,7 @@ export async function getSeasonResources(
     })
     .json()
   if (!data.data?.archives) return { items: [], hasMore: false }
+  const pageInfo = data.data.page
   return {
     items: data.data.archives.map((a: any) => ({
       bvid: a.bvid,
@@ -92,7 +93,8 @@ export async function getSeasonResources(
       pageCount: 1,
       upperName: '',
     })),
-    hasMore: !!data.data.has_more,
+    // 该接口无 has_more 字段，翻页依据是 data.page；单页上限实测为 100，超过报 -400
+    hasMore: pageInfo ? pageInfo.page_num * pageInfo.page_size < pageInfo.total : false,
   }
 }
 

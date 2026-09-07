@@ -111,14 +111,25 @@ onMounted(async () => {
   }
 })
 
+/** 收藏夹或订阅(合集)的资源列表接口均为分页返回，这里循环拉取全部页 */
+async function fetchAllResources(folder: FavFolder): Promise<FavResource[]> {
+  const isSeason = folder.type === 21 && !!folder.ownerMid
+  const items: FavResource[] = []
+  for (let page = 1; ; page++) {
+    const result = isSeason
+      ? await getSeasonResources(folder.id, folder.ownerMid!, page)
+      : await getFavResources(folder.id, page)
+    items.push(...result.items)
+    // 没有更多页或返回空列表时停止（防御空页导致的死循环）
+    if (!result.hasMore || result.items.length === 0) break
+  }
+  return items
+}
+
 async function handleFolderClick(folder: FavFolder) {
   let items: FavResource[]
   try {
-    const result =
-      folder.type === 21 && folder.ownerMid
-        ? await getSeasonResources(folder.id, folder.ownerMid)
-        : await getFavResources(folder.id)
-    items = result.items
+    items = await fetchAllResources(folder)
   } catch (e) {
     console.error('获取内容失败:', e)
     return

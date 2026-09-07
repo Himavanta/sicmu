@@ -74,16 +74,9 @@
 import { IconFolder, IconX } from '@tabler/icons-vue'
 import { ref, onMounted } from 'vue'
 
-import {
-  getCurrentUserMid,
-  getCreatedFavFolders,
-  getCollectedFavFolders,
-  getFavResources,
-  getSeasonResources,
-} from '../api/index.ts'
-import type { FavFolder, FavResource } from '../api/index.ts'
-import { state, play } from '../stores/index.ts'
-import type { Song } from '../stores/types.ts'
+import { getCurrentUserMid, getCreatedFavFolders, getCollectedFavFolders } from '../api/index.ts'
+import type { FavFolder } from '../api/index.ts'
+import { importFolder } from '../stores/importer.ts'
 
 const emit = defineEmits<{
   close: []
@@ -111,60 +104,12 @@ onMounted(async () => {
   }
 })
 
-/** 收藏夹或订阅(合集)的资源列表接口均为分页返回，这里循环拉取全部页 */
-async function fetchAllResources(folder: FavFolder): Promise<FavResource[]> {
-  const isSeason = folder.type === 21 && !!folder.ownerMid
-  const items: FavResource[] = []
-  for (let page = 1; ; page++) {
-    const result = isSeason
-      ? await getSeasonResources(folder.id, folder.ownerMid!, page)
-      : await getFavResources(folder.id, page)
-    items.push(...result.items)
-    // 没有更多页或返回空列表时停止（防御空页导致的死循环）
-    if (!result.hasMore || result.items.length === 0) break
-  }
-  return items
-}
-
-async function handleFolderClick(folder: FavFolder) {
-  let items: FavResource[]
-  try {
-    items = await fetchAllResources(folder)
-  } catch (e) {
-    console.error('获取内容失败:', e)
-    return
-  }
-  if (items.length === 0) return
-
-  const songs: Song[] = items.map((r) => {
-    const pages =
-      r.pageCount > 1
-        ? Array.from({ length: r.pageCount }, () => ({
-            cid: 0,
-            title: '加载中…',
-            duration: 0,
-          }))
-        : []
-    return {
-      bvid: r.bvid,
-      title: r.title,
-      artist: r.upperName,
-      duration: r.duration,
-      pic: '',
-      cid: 0,
-      pages,
-      currentPageIndex: 0,
-      metaLoaded: false,
-    }
-  })
-
-  state.playlist.splice(0, state.playlist.length, ...songs)
+function handleFolderClick(folder: FavFolder) {
+  // 不等待全部拉完：首页到达即替换歌单并开播，后续页后台追加
+  void importFolder(folder)
 
   emit('playlistUpdated')
   emit('close')
-
-  // 直接播第一首（不等待，让对话框立即关闭）
-  void play(0)
 }
 </script>
 

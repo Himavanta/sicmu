@@ -25,6 +25,11 @@ const metainfo = `// ==UserScript==
 
 export default defineConfig({
   plugins: [vue() as PluginOption],
+  define: {
+    __VUE_OPTIONS_API__: 'false',
+    __VUE_PROD_DEVTOOLS__: 'false',
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
+  },
   staged: {
     '*': 'vp check --fix',
   },

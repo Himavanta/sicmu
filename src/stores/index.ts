@@ -15,3 +15,5 @@ export {
 export { play, playPage, togglePlay, next, prev, seek, previewSeek, getAudio } from './player.ts'
 
 export { ensureMeta } from './meta.ts'
+
+export { importFolder } from './importer.ts'

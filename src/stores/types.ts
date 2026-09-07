@@ -28,6 +28,8 @@ export interface PlayerState {
   playing: boolean
   currentTime: number
   loading: boolean
+  /** 歌单正在后台分页导入 */
+  importing: boolean
 }
 
 /* ── API 返回的视频信息 ── */

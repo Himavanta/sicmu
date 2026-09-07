@@ -63,6 +63,9 @@
         />
       </template>
     </div>
+
+    <!-- 后台续载指示 -->
+    <div v-if="state.importing" :class="$style.importing">正在导入更多…</div>
   </div>
 </template>
 
@@ -81,12 +84,15 @@ function fmt(seconds: number): string {
 const expandedMap = ref<Record<number, boolean>>({})
 const loadingMap = ref<Record<number, boolean>>({})
 
-// 切换歌单时清理展开/加载状态
+// 歌单被整体替换（切换来源）时清理展开/加载状态；
+// 后台追加导入的新页不应打断用户正在进行的展开
 watch(
-  () => state.playlist.map((s) => s.bvid).join(','),
-  () => {
-    expandedMap.value = {}
-    loadingMap.value = {}
+  () => state.playlist[0]?.bvid ?? '',
+  (first, prev) => {
+    if (first !== prev) {
+      expandedMap.value = {}
+      loadingMap.value = {}
+    }
   },
 )
 
@@ -141,5 +147,32 @@ async function toggleExpand(si: number) {
   font-size: 12px;
   color: rgba(0, 0, 0, 0.25);
   text-align: center;
+}
+
+/* 后台续载指示 */
+.importing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+  &::before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: importingPulse 0.8s ease-in-out infinite;
+  }
+}
+
+@keyframes importingPulse {
+  50% {
+    opacity: 0.2;
+  }
 }
 </style>

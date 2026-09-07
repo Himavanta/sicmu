@@ -14,6 +14,7 @@ export const state = reactive<PlayerState>({
   playing: false,
   currentTime: 0,
   loading: false,
+  importing: false,
 })
 
 /* ── 计算属性 ── */

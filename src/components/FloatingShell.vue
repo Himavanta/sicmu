@@ -3,7 +3,7 @@
     <div :class="$style.banner">
       <PlayerArtwork />
       <div :class="$style.overlay">
-        <PlayerInfo :title="currentTitle" />
+        <PlayerInfo :title="currentTitle" :playing="state.playing" />
         <div ref="progRef" :class="$style.progTrack" @mousedown="handleSeekStart">
           <div :class="$style.progFill" :style="{ width: `${pct}%` }" />
           <div :class="$style.progThumb" :style="{ left: `${pct}%` }" />
@@ -26,12 +26,10 @@
     </div>
   </div>
 
-  <Teleport to="body">
-    <FavDialog
-      v-if="showDialog"
-      @close="showDialog = false"
-      @playlist-updated="showPlaylist = true"
-    />
+  <!-- 点击才创建 Teleport：此时页面必已加载完、body 必然存在，
+       避免 document-start 同步 mount 时解析 body 为 null -->
+  <Teleport v-if="showDialog" to="body">
+    <FavDialog @close="showDialog = false" @playlist-updated="showPlaylist = true" />
   </Teleport>
 </template>
 

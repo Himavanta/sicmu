@@ -1,11 +1,8 @@
 <template>
   <div :class="$style.info">
     <h2 :class="$style.title">
-      <span :class="[$style.scroller, playing && $style.scrolling].filter(Boolean).join(' ')">
-        <span :class="$style.seg">{{ title }}</span>
-        <span aria-hidden="true" :class="[$style.seg, $style.copy].filter(Boolean).join(' ')">{{
-          title
-        }}</span>
+      <span :class="[$style.seg, playing && $style.scrolling]">
+        {{ title }}<span aria-hidden="true" :class="$style.copy">{{ title }}</span>
       </span>
     </h2>
   </div>
@@ -27,9 +24,8 @@ withDefaults(
   min-width: 0;
 }
 
-/* 视口：relative 作定位基准 + 裁切 + 单行 */
+/* 视口：裁切 + 单行 */
 .title {
-  position: relative;
   margin: 0;
   font-size: 12px;
   font-weight: 600;
@@ -39,30 +35,33 @@ withDefaults(
   overflow: hidden;
 }
 
-/* 动画载体：占满视口宽，位移 -100% 恰好移出一个视口宽 */
-.scroller {
-  position: relative;
-  display: block;
-  width: 100%;
-}
-
-/* 双份同构标题：各占满一个视口宽，长文本从各自左侧开始溢出，
-   副本 absolute 钉在视口右缘外 → 静止时永远不可见（无双显） */
+/* 第一份标题盒子：宽 = max(文本宽, 视口宽)
+   - 短标题：撑满视口，把副本推到右缘外（不可见，无双显）
+   - 长标题：随文本变宽，副本起点 = 文本末尾（无缝不重叠）
+   动画 -100% 相对自身盒宽，恰好移出一个文本长（或一个视口宽） */
 .seg {
-  display: block;
-  width: 100%;
+  position: relative;
+  display: inline-block;
+  min-width: 100%;
   white-space: nowrap;
 }
 
+/* 副本：定位在第一份盒子的右缘，默认隐藏 */
 .copy {
   position: absolute;
   top: 0;
   left: 100%;
+  display: none;
+  white-space: nowrap;
 }
 
-/* 播放中：无缝循环（首尾各停 10%）；副本平移后精确补位 */
+/* 播放中：副本参与补位 + 无缝循环（首尾各停 10%） */
 .scrolling {
   animation: titleScroll 15s linear infinite;
+
+  .copy {
+    display: inline-block;
+  }
 }
 
 @keyframes titleScroll {

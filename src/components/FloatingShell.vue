@@ -14,7 +14,10 @@
             @toggle-playlist="togglePlaylist"
             @open-dialog="showDialog = true"
           />
-          <PlayerProgress />
+          <div :class="$style.volumeTime">
+            <PlayerVolume />
+            <PlayerProgress />
+          </div>
         </div>
       </div>
     </div>
@@ -42,6 +45,7 @@ import PlayerArtwork from './PlayerArtwork.vue'
 import PlayerControls from './PlayerControls.vue'
 import PlayerInfo from './PlayerInfo.vue'
 import PlayerProgress from './PlayerProgress.vue'
+import PlayerVolume from './PlayerVolume.vue'
 import Playlist from './Playlist.vue'
 
 const showPlaylist = ref(false)
@@ -127,7 +131,8 @@ onUnmounted(() => {
   transition: opacity 0.2s ease;
   pointer-events: none;
 
-  .shell:hover & {
+  .shell:hover &,
+  .shell:focus-within & {
     opacity: 1;
     pointer-events: auto;
   }
@@ -169,8 +174,8 @@ onUnmounted(() => {
 .progThumb {
   position: absolute;
   top: 50%;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: #fff;
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
@@ -183,13 +188,16 @@ onUnmounted(() => {
   }
 }
 
-/* 底行：控制 + 时间 */
+/* 底行：控制 + 音量与时间 */
 .midRow {
   display: flex;
   align-items: center;
 }
 
-.midRow > :last-child {
+.volumeTime {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-left: auto;
 }
 

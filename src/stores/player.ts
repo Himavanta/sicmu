@@ -8,9 +8,32 @@ import { state, currentIndex, currentSong, getFlatPlaylist, getCurrentFlatIndex 
 
 let audio: HTMLAudioElement | null = null
 
+function syncVolumeStorage(audio: HTMLAudioElement) {
+  try {
+    const saved = localStorage.getItem('sicmu:volume')
+    if (saved !== null && saved.trim() !== '') {
+      const volume = Number(saved)
+      if (Number.isFinite(volume) && volume >= 0 && volume <= 1) {
+        audio.volume = volume
+      }
+    }
+  } catch {
+    // 存储不可用时保留音频默认音量。
+  }
+
+  audio.addEventListener('volumechange', () => {
+    try {
+      localStorage.setItem('sicmu:volume', String(audio.volume))
+    } catch {
+      // 保存失败不影响当前音量调节。
+    }
+  })
+}
+
 function ensureAudio(): HTMLAudioElement {
   if (!audio) {
     audio = new Audio()
+    syncVolumeStorage(audio)
     audio.addEventListener('timeupdate', () => {
       if (audio && !audio.paused) {
         state.currentTime = Math.floor(audio.currentTime)
